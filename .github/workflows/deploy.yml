@@ -39,9 +39,10 @@ jobs:
           VITE_FORM_PROVIDER: ${{ vars.VITE_FORM_PROVIDER }}
           VITE_FORMSUBMIT_TARGET: ${{ vars.VITE_FORMSUBMIT_TARGET }}
 
+      # Pages musi być wcześniej włączone w ustawieniach repozytorium
+      # (Settings -> Pages -> Source: GitHub Actions). Domyślny token
+      # workflow nie ma uprawnień, żeby zrobić to samodzielnie.
       - uses: actions/configure-pages@v5
-        with:
-          enablement: true
 
       - uses: actions/upload-pages-artifact@v3
         with:
