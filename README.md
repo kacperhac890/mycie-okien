@@ -3,6 +3,8 @@
 Landing page zbudowany pod jeden cel: zapytanie o wycenę. React 19 + TypeScript +
 Tailwind CSS v4 + Vite, bez zbędnych zależności.
 
+**Podgląd na żywo:** https://kacperhac890.github.io/mycie-okien/
+
 ```bash
 npm install
 npm run dev        # http://localhost:5190
@@ -126,10 +128,30 @@ na `/polityka-cookies` oraz listy odbiorców w polityce prywatności.
 Routing opiera się na `react-router-dom` w trybie `BrowserRouter`, więc serwer musi
 kierować wszystkie ścieżki do `index.html`:
 
+- **GitHub Pages:** brak przepisywania po stronie serwera, dlatego `npm run build`
+  tworzy kopię `dist/404.html` (skrypt `scripts/postbuild.mjs`). Podstrony działają,
+  ale serwer zwraca przy nich status 404. Do indeksowania w Google lepszy jest
+  hosting z prawdziwym przepisywaniem adresów.
 - **Netlify:** plik `public/_redirects` z wpisem `/* /index.html 200`
 - **Vercel:** `vercel.json` z `rewrites` na `/index.html`
 - **Apache:** reguła `FallbackResource /index.html`
 - **nginx:** `try_files $uri $uri/ /index.html;`
+
+### Wdrożenie na GitHub Pages
+
+Push do `main` uruchamia `.github/workflows/deploy.yml`, który buduje projekt
+i publikuje go przez GitHub Actions.
+
+- Ścieżkę bazową ustawia zmienna `BASE_PATH` w workflow (`/mycie-okien/`). Przy
+  zmianie nazwy repozytorium trzeba ją poprawić.
+- Konfiguracja formularza pochodzi ze **zmiennych repozytorium**
+  (Settings → Secrets and variables → Actions → Variables):
+  `VITE_FORM_PROVIDER` i `VITE_FORMSUBMIT_TARGET`. Plik `.env` nie trafia do
+  repozytorium, więc bez tych zmiennych build wróci do trybu `mock`.
+- Pages musi mieć ustawione źródło **GitHub Actions** (Settings → Pages).
+
+Po podpięciu własnej domeny podmień adres w `index.html` (canonical, Open Graph,
+dane strukturalne), `public/robots.txt`, `public/sitemap.xml` i `src/data/legal.ts`.
 
 Dokumenty prawne to materiał wyjściowy, nie porada prawna. Fragmenty oznaczone
 `[DO UZUPEŁNIENIA]` wymagają decyzji właściciela serwisu.
