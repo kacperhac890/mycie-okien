@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="pl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#0b1f33" />
+
+    <!-- Adres podglądu na GitHub Pages. Po kupieniu domeny podmień tutaj,
+         w public/robots.txt, public/sitemap.xml i src/data/legal.ts. -->
+    <link rel="canonical" href="https://kacperhac890.github.io/mycie-okien/" />
+
+    <title>Profesjonalne mycie okien, witryn i przeszkleń | [NAZWA FIRMY]</title>
+    <meta
+      name="description"
+      content="Mycie okien, witryn sklepowych i dużych przeszkleń dla klientów prywatnych i firm. Profesjonalny sprzęt, ubezpieczenie OC, bezpłatna wycena w 60 sekund."
+    />
+    <meta name="robots" content="index, follow, max-image-preview:large" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="pl_PL" />
+    <meta property="og:site_name" content="[NAZWA FIRMY]" />
+    <meta property="og:title" content="Profesjonalne mycie okien, witryn i przeszkleń" />
+    <meta
+      property="og:description"
+      content="Mycie okien, witryn sklepowych i dużych przeszkleń dla klientów prywatnych i firm. Bezpłatna, niezobowiązująca wycena."
+    />
+    <meta property="og:url" content="https://kacperhac890.github.io/mycie-okien/" />
+    <meta property="og:image" content="https://kacperhac890.github.io/mycie-okien/og-image.jpg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/favicon.svg" />
+
+    <link rel="preconnect" href="https://images.unsplash.com" crossorigin />
+
+    <!--
+      Dane strukturalne dla lokalnego SEO.
+      PLACEHOLDER: uzupełnij nazwę, telefon, adres i obszar działania.
+      Architektura pozwala później dodać podstrony miast (/mycie-okien-<miasto>)
+      i dołożyć kolejne wpisy areaServed bez zmian w komponentach.
+    -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "LocalBusiness",
+        "name": "[NAZWA FIRMY]",
+        "description": "Profesjonalne mycie okien, witryn sklepowych i przeszkleń dla klientów prywatnych i firm.",
+        "url": "https://kacperhac890.github.io/mycie-okien/",
+        "telephone": "[+48 000 000 000]",
+        "email": "[kontakt@przykladowa-domena.pl]",
+        "priceRange": "$$",
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "[ULICA I NUMER]",
+          "postalCode": "[00-000]",
+          "addressLocality": "[MIASTO]",
+          "addressCountry": "PL"
+        },
+        "areaServed": [{ "@type": "City", "name": "[MIASTO]" }],
+        "openingHoursSpecification": [
+          {
+            "@type": "OpeningHoursSpecification",
+            "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+            "opens": "[08:00]",
+            "closes": "[18:00]"
+          }
+        ]
+      }
+    </script>
+  </head>
+  <body>
+    <!--
+      NETLIFY FORMS (tylko jeśli hostujesz na Netlify)
+      Netlify wykrywa formularze w statycznym HTML-u w czasie builda, dlatego
+      poza formularzem reaktowym potrzebny jest ten „szkielet”. Odkomentuj go
+      i ustaw VITE_FORM_PROVIDER=netlify w pliku .env. Nazwa formularza musi
+      być taka sama jak VITE_NETLIFY_FORM_NAME.
+
+      <form name="wycena" netlify netlify-honeypot="bot-field" hidden>
+        <input type="text" name="Rodzaj usługi" />
+        <input type="text" name="Przeszklenia" />
+        <input type="text" name="Liczba" />
+        <input type="text" name="Rozmiar" />
+        <input type="text" name="Dodatkowe usługi" />
+        <input type="text" name="Imię / nazwa firmy" />
+        <input type="text" name="Osoba kontaktowa / firma" />
+        <input type="text" name="Telefon" />
+        <input type="email" name="E-mail" />
+        <input type="text" name="Lokalizacja" />
+        <textarea name="Uwagi"></textarea>
+        <input type="file" name="zdjecie_1" />
+      </form>
+    -->
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

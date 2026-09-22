@@ -1,0 +1,510 @@
+@import "tailwindcss";
+
+/* ------------------------------------------------------------------
+   DESIGN TOKENS
+   One palette, one accent, one radius system. Nothing is hardcoded in
+   components: every colour below is consumed through a token.
+   ------------------------------------------------------------------ */
+
+:root {
+  color-scheme: light;
+
+  /* Surfaces */
+  --bg: #f4f8fb;
+  --surface: #ffffff;
+  --surface-2: #eaf1f7;
+  --surface-inset: #f7fafc;
+
+  /* Text */
+  --ink: #0c1c2c;
+  --ink-soft: #55697c;
+  --ink-faint: #7b8fa1;
+
+  /* Lines */
+  --line: #dce7ef;
+  --line-strong: #c3d4e1;
+
+  /* Single accent (azure: glass and water) */
+  --accent: #0b69b8;
+  --accent-hover: #095a9f;
+  --accent-soft: #e5f0fa;
+
+  /* Brand navy: dark surfaces and the primary CTA */
+  --brand: #0b1f33;
+  --brand-2: #102a43;
+  --on-brand: #f1f7fb;
+  --on-brand-soft: #a9bfd2;
+  --brand-line: rgb(255 255 255 / 0.12);
+
+  /* Główne CTA. Osobne tokeny, bo w trybie ciemnym granatowy przycisk
+     zlałby się z tłem strony. */
+  --cta-bg: #0b1f33;
+  --cta-bg-hover: #16354f;
+  --cta-fg: #f1f7fb;
+  --cta-on-brand-bg: #ffffff;
+  --cta-on-brand-bg-hover: #dbe9f4;
+  --cta-on-brand-fg: #0b1f33;
+
+  /* Akcent na ciemnych panelach musi być jasny w obu motywach. */
+  --accent-on-brand: #5cb4f2;
+
+  /* Feedback */
+  --danger: #b3261e;
+  --danger-soft: #fdecea;
+  --success: #17795e;
+
+  /* Elevation, tinted to the background hue. Never pure black. */
+  --shadow-sm: 0 1px 2px rgb(12 28 44 / 0.05);
+  --shadow-md: 0 8px 24px -12px rgb(12 28 44 / 0.18);
+  --shadow-lg: 0 32px 64px -32px rgb(12 28 44 / 0.3);
+
+  /* Radius system: buttons = pill, cards = 16px, controls = 12px */
+  --r-card: 1rem;
+  --r-control: 0.75rem;
+  --r-pill: 999px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    color-scheme: dark;
+
+    --bg: #091522;
+    --surface: #0e1f30;
+    --surface-2: #14293c;
+    --surface-inset: #0b1b2a;
+
+    --ink: #e9f1f7;
+    --ink-soft: #9db2c4;
+    --ink-faint: #7b92a6;
+
+    --line: rgb(255 255 255 / 0.1);
+    --line-strong: rgb(255 255 255 / 0.2);
+
+    --accent: #5cb4f2;
+    --accent-hover: #86c9f7;
+    --accent-soft: rgb(92 180 242 / 0.14);
+
+    --brand: #061320;
+    --brand-2: #0d2135;
+    --on-brand: #eaf3f9;
+    --on-brand-soft: #9bb2c6;
+    --brand-line: rgb(255 255 255 / 0.1);
+
+    --cta-bg: #5cb4f2;
+    --cta-bg-hover: #86c9f7;
+    --cta-fg: #05121f;
+    --cta-on-brand-bg: #ffffff;
+    --cta-on-brand-bg-hover: #d7e8f5;
+    --cta-on-brand-fg: #071827;
+
+    --accent-on-brand: #5cb4f2;
+
+    --danger: #ff9d94;
+    --danger-soft: rgb(255 157 148 / 0.12);
+    --success: #6fd6b4;
+
+    --shadow-sm: 0 1px 2px rgb(0 0 0 / 0.4);
+    --shadow-md: 0 8px 24px -12px rgb(0 0 0 / 0.6);
+    --shadow-lg: 0 32px 64px -32px rgb(0 0 0 / 0.75);
+  }
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-surface-inset: var(--surface-inset);
+  --color-ink: var(--ink);
+  --color-ink-soft: var(--ink-soft);
+  --color-ink-faint: var(--ink-faint);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+  --color-accent: var(--accent);
+  --color-accent-hover: var(--accent-hover);
+  --color-accent-soft: var(--accent-soft);
+  --color-brand: var(--brand);
+  --color-brand-2: var(--brand-2);
+  --color-on-brand: var(--on-brand);
+  --color-on-brand-soft: var(--on-brand-soft);
+  --color-brand-line: var(--brand-line);
+  --color-accent-on-brand: var(--accent-on-brand);
+  --color-cta: var(--cta-bg);
+  --color-cta-hover: var(--cta-bg-hover);
+  --color-cta-fg: var(--cta-fg);
+  --color-cta-on-brand: var(--cta-on-brand-bg);
+  --color-cta-on-brand-hover: var(--cta-on-brand-bg-hover);
+  --color-cta-on-brand-fg: var(--cta-on-brand-fg);
+  --color-danger: var(--danger);
+  --color-danger-soft: var(--danger-soft);
+  --color-success: var(--success);
+
+  --radius-card: var(--r-card);
+  --radius-control: var(--r-control);
+  --radius-pill: var(--r-pill);
+
+  --shadow-soft: var(--shadow-sm);
+  --shadow-raise: var(--shadow-md);
+  --shadow-float: var(--shadow-lg);
+
+  --font-sans: "Manrope Variable", ui-sans-serif, system-ui, -apple-system,
+    "Segoe UI", sans-serif;
+
+  --breakpoint-xs: 25rem;
+}
+
+/* ------------------------------------------------------------------
+   BASE
+   ------------------------------------------------------------------ */
+
+@layer base {
+  * {
+    border-color: var(--line);
+  }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background-color: var(--bg);
+    color: var(--ink);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+    border-radius: 6px;
+  }
+
+  ::selection {
+    background: var(--accent);
+    color: #fff;
+  }
+
+  img {
+    display: block;
+    max-width: 100%;
+  }
+
+  /* Native spinners fight the custom quantity stepper */
+  input[type="number"]::-webkit-outer-spin-button,
+  input[type="number"]::-webkit-inner-spin-button {
+    appearance: none;
+    margin: 0;
+  }
+}
+
+/* ------------------------------------------------------------------
+   PRIMITIVES
+   ------------------------------------------------------------------ */
+
+@layer components {
+  .shell {
+    width: 100%;
+    max-width: 78rem;
+    margin-inline: auto;
+    padding-inline: 1.25rem;
+  }
+
+  @media (min-width: 768px) {
+    .shell {
+      padding-inline: 2rem;
+    }
+  }
+
+  @media (min-width: 1280px) {
+    .shell {
+      padding-inline: 2.5rem;
+    }
+  }
+
+  .section-pad {
+    padding-block: 4.5rem;
+  }
+
+  @media (min-width: 768px) {
+    .section-pad {
+      padding-block: 6.5rem;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .section-pad {
+      padding-block: 8rem;
+    }
+  }
+
+  .h-display {
+    font-size: clamp(2.125rem, 1.45rem + 3.1vw, 3.875rem);
+    line-height: 1.04;
+    letter-spacing: -0.032em;
+    font-weight: 800;
+  }
+
+  .h-section {
+    font-size: clamp(1.6875rem, 1.25rem + 2vw, 2.5rem);
+    line-height: 1.1;
+    letter-spacing: -0.026em;
+    font-weight: 700;
+  }
+
+  .h-card {
+    font-size: 1.0625rem;
+    line-height: 1.35;
+    letter-spacing: -0.012em;
+    font-weight: 700;
+  }
+
+  .body-lead {
+    font-size: 1.0625rem;
+    line-height: 1.65;
+    color: var(--ink-soft);
+  }
+
+  @media (min-width: 768px) {
+    .body-lead {
+      font-size: 1.1875rem;
+    }
+  }
+
+  .body-text {
+    font-size: 0.9375rem;
+    line-height: 1.65;
+    color: var(--ink-soft);
+  }
+
+  @media (min-width: 768px) {
+    .body-text {
+      font-size: 1rem;
+    }
+  }
+
+  .eyebrow {
+    font-size: 0.6875rem;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+
+  /* Typografia dokumentów prawnych. Jeden zestaw reguł dla wszystkich
+     podstron tekstowych, żeby nie powtarzać klas przy każdym akapicie. */
+  .legal-prose {
+    color: var(--ink-soft);
+    font-size: 0.9375rem;
+    line-height: 1.7;
+  }
+
+  @media (min-width: 768px) {
+    .legal-prose {
+      font-size: 1rem;
+    }
+  }
+
+  .legal-prose > * + * {
+    margin-top: 1rem;
+  }
+
+  .legal-prose h2 {
+    margin-top: 3rem;
+    font-size: 1.375rem;
+    line-height: 1.25;
+    letter-spacing: -0.02em;
+    font-weight: 700;
+    color: var(--ink);
+    scroll-margin-top: 7rem;
+  }
+
+  .legal-prose h3 {
+    margin-top: 2rem;
+    font-size: 1.0625rem;
+    line-height: 1.35;
+    font-weight: 700;
+    color: var(--ink);
+  }
+
+  .legal-prose h2 + *,
+  .legal-prose h3 + * {
+    margin-top: 0.75rem;
+  }
+
+  .legal-prose ul {
+    list-style: none;
+    padding-left: 0;
+  }
+
+  .legal-prose ul > li {
+    position: relative;
+    padding-left: 1.375rem;
+    margin-top: 0.5rem;
+  }
+
+  .legal-prose ul > li::before {
+    content: "";
+    position: absolute;
+    left: 0.25rem;
+    top: 0.7em;
+    width: 6px;
+    height: 6px;
+    border-radius: 999px;
+    background: var(--accent);
+  }
+
+  .legal-prose strong {
+    color: var(--ink);
+    font-weight: 700;
+  }
+
+  .legal-prose a {
+    color: var(--accent);
+    font-weight: 600;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+
+  .legal-note {
+    margin-top: 1.25rem;
+    border-radius: var(--r-control);
+    border: 1px solid var(--line);
+    background: var(--surface-inset);
+    padding: 1rem 1.125rem;
+    font-size: 0.875rem;
+    line-height: 1.6;
+  }
+
+  /* Frosted panel for the nav and the hero proof card. Degrades to a
+     solid fill where transparency is reduced or unsupported. */
+  .frost {
+    background: color-mix(in srgb, var(--surface) 86%, transparent);
+    backdrop-filter: blur(16px) saturate(150%);
+    -webkit-backdrop-filter: blur(16px) saturate(150%);
+  }
+
+  @media (prefers-reduced-transparency: reduce) {
+    .frost {
+      background: var(--surface);
+      backdrop-filter: none;
+      -webkit-backdrop-filter: none;
+    }
+  }
+
+  @supports not (backdrop-filter: blur(1px)) {
+    .frost {
+      background: var(--surface);
+    }
+  }
+}
+
+/* ------------------------------------------------------------------
+   MOTION
+   Entrances animate opacity and transform only, and the whole layer
+   collapses to a static page under prefers-reduced-motion.
+   ------------------------------------------------------------------ */
+
+@layer utilities {
+  .reveal {
+    opacity: 0;
+    transform: translate3d(0, 18px, 0);
+    transition:
+      opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+      transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+    transition-delay: var(--reveal-delay, 0ms);
+  }
+
+  .reveal-in {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+
+  .step-enter {
+    animation: step-enter 0.38s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+
+  .step-enter-back {
+    animation: step-enter-back 0.38s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+
+  .pop-in {
+    animation: pop-in 0.45s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+
+  .draw-check {
+    stroke-dasharray: 48;
+    stroke-dashoffset: 48;
+    animation: draw-check 0.55s cubic-bezier(0.65, 0, 0.35, 1) 0.15s forwards;
+  }
+}
+
+@keyframes step-enter {
+  from {
+    opacity: 0;
+    transform: translate3d(14px, 0, 0);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes step-enter-back {
+  from {
+    opacity: 0;
+    transform: translate3d(-14px, 0, 0);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes pop-in {
+  from {
+    opacity: 0;
+    transform: scale(0.94);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes draw-check {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .reveal {
+    opacity: 1;
+    transform: none;
+  }
+}

@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+
+# Adres podgladu na GitHub Pages. Po kupieniu domeny podmien tutaj.
+Sitemap: https://kacperhac890.github.io/mycie-okien/sitemap.xml
