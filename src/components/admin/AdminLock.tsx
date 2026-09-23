@@ -27,6 +27,14 @@ export function AdminLock({ onUnlock }: { onUnlock: () => void }) {
       if (!crypto?.subtle) {
         throw new Error("Przeglądarka nie udostępnia funkcji szyfrujących.");
       }
+      /* Gdyby skrót hasła był pusty albo uszkodzony, żadne hasło nie
+         zadziała. Lepiej powiedzieć to wprost niż udawać, że użytkownik
+         się pomylił. */
+      if (!/^[a-f0-9]{64}$/i.test(ADMIN_PASS_HASH)) {
+        throw new Error(
+          "Błąd konfiguracji: brak poprawnego skrótu hasła. Sprawdź zmienną VITE_ADMIN_PASS_HASH.",
+        );
+      }
       const hash = await sha256(value);
       if (hash === ADMIN_PASS_HASH) onUnlock();
       else setError("Nieprawidłowe hasło.");

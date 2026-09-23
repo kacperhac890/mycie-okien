@@ -3,7 +3,7 @@ import { CheckCircle2, Download, ExternalLink, KeyRound, Loader2, Upload } from 
 import { REPO } from "../../content/adminConfig";
 import { publishContent } from "../../content/publish";
 import type { PublishProgress } from "../../content/publish";
-import { actionsUrl, checkToken } from "../../lib/github";
+import { actionsUrl, checkToken, newTokenUrl } from "../../lib/github";
 import { draftSizeKb } from "../../content/store";
 import type { SiteContent } from "../../content/types";
 import { Button } from "../ui/Button";
@@ -100,9 +100,25 @@ export function PublishPanel({ draft, dirty, onPublished }: Props) {
           Token GitHuba
         </h3>
         <p className="body-text mt-2 text-[0.8125rem]">
-          Wygeneruj token drobnoziarnisty z uprawnieniem <strong>Contents: Read and write</strong>{" "}
-          do tego repozytorium. Token zostaje wyłącznie w Twojej przeglądarce, nigdy nie trafia do
-          kodu strony ani do repozytorium.
+          Token zostaje wyłącznie w Twojej przeglądarce. Nie trafia do kodu strony ani do
+          repozytorium, więc nikt poza Tobą go nie zobaczy.
+        </p>
+
+        <a
+          href={newTokenUrl}
+          target="_blank"
+          rel="noreferrer"
+          className="mt-3 inline-flex items-center gap-2 rounded-pill bg-accent-soft px-4 py-2.5 text-[0.875rem] font-semibold text-accent transition-colors hover:bg-accent/15"
+        >
+          Utwórz token na GitHubie
+          <ExternalLink className="h-3.5 w-3.5" aria-hidden="true" />
+        </a>
+
+        <p className="mt-3 text-[0.75rem] leading-relaxed text-ink-faint">
+          Link otwiera formularz z zaznaczonym zakresem <code>public_repo</code>. Ustaw termin
+          ważności, kliknij „Generate token" i skopiuj wynik tutaj. Alternatywa: token
+          drobnoziarnisty z uprawnieniem <strong>Contents: Read and write</strong> tylko do tego
+          repozytorium.
         </p>
 
         <div className="mt-4">

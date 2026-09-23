@@ -1,5 +1,6 @@
 import type { QuoteData } from "../components/quote/types";
 import { labelOf } from "../components/quote/options";
+import { envOr } from "./env";
 
 /* ==================================================================
    DOSTAWCY OBSŁUGI FORMULARZA
@@ -57,7 +58,7 @@ type Env = {
 
 function readEnv(): Env {
   const env = import.meta.env;
-  const provider = (env.VITE_FORM_PROVIDER ?? "mock") as ProviderId;
+  const provider = envOr(env.VITE_FORM_PROVIDER, "mock") as ProviderId;
   const attachments = env.VITE_FORM_ATTACHMENTS;
 
   return {
@@ -66,7 +67,7 @@ function readEnv(): Env {
     web3formsKey: env.VITE_WEB3FORMS_KEY,
     formspreeId: env.VITE_FORMSPREE_ID,
     customEndpoint: env.VITE_FORM_ENDPOINT,
-    netlifyFormName: env.VITE_NETLIFY_FORM_NAME ?? "wycena",
+    netlifyFormName: envOr(env.VITE_NETLIFY_FORM_NAME, "wycena"),
     attachmentsOverride:
       attachments === undefined ? undefined : attachments === "true" || attachments === "1",
   };

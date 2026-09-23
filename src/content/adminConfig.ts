@@ -1,3 +1,5 @@
+import { envOr } from "../lib/env";
+
 /* ==================================================================
    KONFIGURACJA PANELU
 
@@ -11,15 +13,15 @@
    wpisujesz go ręcznie i zostaje wyłącznie w Twojej przeglądarce.
    ================================================================== */
 
-/** SHA-256 hasła. Domyślne hasło: okna-admin-2026 (zmień je, patrz README). */
-export const ADMIN_PASS_HASH =
-  import.meta.env.VITE_ADMIN_PASS_HASH ??
-  "3e720a2b23987bbb4e90a42a408c045a1ca9241e6207385f4ba6078e64d62f44";
+/** SHA-256 domyślnego hasła `okna-admin-2026`. Zmiana: patrz README. */
+const DEFAULT_PASS_HASH = "3e720a2b23987bbb4e90a42a408c045a1ca9241e6207385f4ba6078e64d62f44";
+
+export const ADMIN_PASS_HASH = envOr(import.meta.env.VITE_ADMIN_PASS_HASH, DEFAULT_PASS_HASH);
 
 export const REPO = {
-  owner: import.meta.env.VITE_GH_OWNER ?? "kacperhac890",
-  name: import.meta.env.VITE_GH_REPO ?? "mycie-okien",
-  branch: import.meta.env.VITE_GH_BRANCH ?? "main",
+  owner: envOr(import.meta.env.VITE_GH_OWNER, "kacperhac890"),
+  name: envOr(import.meta.env.VITE_GH_REPO, "mycie-okien"),
+  branch: envOr(import.meta.env.VITE_GH_BRANCH, "main"),
 };
 
 /** Ścieżki w repozytorium. */

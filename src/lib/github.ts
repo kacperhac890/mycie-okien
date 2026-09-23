@@ -98,3 +98,9 @@ export function parseDataUrl(dataUrl: string) {
 }
 
 export const actionsUrl = `https://github.com/${REPO.owner}/${REPO.name}/actions`;
+
+/* Formularz tworzenia tokenu klasycznego z gotowym zakresem. Dla repozytorium
+   publicznego `public_repo` wystarczy i jest węższy niż pełne `repo`. */
+export const newTokenUrl =
+  "https://github.com/settings/tokens/new?scopes=public_repo&description=" +
+  encodeURIComponent(`Panel tresci ${REPO.name}`);
