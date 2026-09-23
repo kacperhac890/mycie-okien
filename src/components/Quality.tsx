@@ -1,9 +1,10 @@
 import { quality } from "../data/site";
-import { images, img } from "../data/images";
+import { IMAGE_RATIOS, responsive } from "../data/images";
+import { useContent } from "../content/ContentProvider";
 import { Reveal } from "./ui/Reveal";
 
 export function Quality() {
-  const photo = img(images.quality, 1440);
+  const photo = responsive(useContent().images.quality, IMAGE_RATIOS.quality, 1440);
 
   return (
     <section aria-labelledby="jakosc-tytul" className="section-pad bg-surface">

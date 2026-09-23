@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { Suspense, lazy, useEffect } from "react";
 import { Link, Route, Routes, useLocation } from "react-router-dom";
 import { Navbar } from "./components/Navbar";
 import { Footer } from "./components/Footer";
@@ -7,6 +7,12 @@ import { Button } from "./components/ui/Button";
 import { HomePage } from "./pages/HomePage";
 import { PrivacyPolicyPage } from "./pages/PrivacyPolicyPage";
 import { CookiePolicyPage } from "./pages/CookiePolicyPage";
+
+/* Panel treści ładujemy osobnym pakietem. Odwiedzający stronę nigdy go nie
+   pobierają, więc edytory nie obciążają czasu ładowania strony sprzedażowej. */
+const AdminPage = lazy(() =>
+  import("./pages/AdminPage").then((module) => ({ default: module.AdminPage })),
+);
 
 /**
  * Zmiana trasy przewija na górę, a kotwica (np. /#wycena) do właściwej
@@ -57,6 +63,31 @@ function NotFoundPage() {
 }
 
 export default function App() {
+  /* Panel treści ma własny układ: bez nawigacji sprzedażowej, stopki
+     i banera cookies, żeby nic nie rozpraszało przy edycji. */
+  const isAdmin = useLocation().pathname.replace(/\/+$/, "") === "/admin";
+
+  if (isAdmin) {
+    return (
+      <>
+        <ScrollManager />
+        <main>
+          <Suspense
+            fallback={
+              <div className="flex min-h-[60dvh] items-center justify-center text-ink-soft">
+                Wczytuję panel
+              </div>
+            }
+          >
+            <Routes>
+              <Route path="/admin" element={<AdminPage />} />
+            </Routes>
+          </Suspense>
+        </main>
+      </>
+    );
+  }
+
   return (
     <>
       <a

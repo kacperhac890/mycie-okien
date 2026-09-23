@@ -38,6 +38,9 @@ jobs:
           # Gdy zmienne są puste, formularz wraca do trybu mock.
           VITE_FORM_PROVIDER: ${{ vars.VITE_FORM_PROVIDER }}
           VITE_FORMSUBMIT_TARGET: ${{ vars.VITE_FORMSUBMIT_TARGET }}
+          # Hasło panelu /admin jako skrót SHA-256. Puste = hasło domyślne
+          # opisane w README.
+          VITE_ADMIN_PASS_HASH: ${{ vars.VITE_ADMIN_PASS_HASH }}
 
       # Pages musi być wcześniej włączone w ustawieniach repozytorium
       # (Settings -> Pages -> Source: GitHub Actions). Domyślny token

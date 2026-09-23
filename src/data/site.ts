@@ -186,45 +186,6 @@ export const quality = {
   ],
 };
 
-/* ------------------------------------------------------------------
-   OPINIE
-   Nie wpisujemy zmyślonych opinii. Poniżej struktura gotowa do
-   uzupełnienia: podmień pola w nawiasach na prawdziwe wypowiedzi,
-   ustaw `rating` (1-5) i przełącz `isPlaceholder` na false.
-   ------------------------------------------------------------------ */
-
-export type Testimonial = {
-  quote: string;
-  author: string;
-  meta: string;
-  rating: number | null;
-  isPlaceholder: boolean;
-};
-
-export const testimonials: Testimonial[] = [
-  {
-    quote: "[Miejsce na prawdziwą opinię klienta prywatnego. Dwa, trzy zdania wystarczą.]",
-    author: "[Imię klienta]",
-    meta: "[Dom jednorodzinny, MIASTO]",
-    rating: null,
-    isPlaceholder: true,
-  },
-  {
-    quote: "[Miejsce na opinię klienta komercyjnego: lokal, biuro lub witryna.]",
-    author: "[Imię i nazwisko]",
-    meta: "[Nazwa lokalu, MIASTO]",
-    rating: null,
-    isPlaceholder: true,
-  },
-  {
-    quote: "[Miejsce na opinię dotyczącą stałej współpracy lub trudnej realizacji.]",
-    author: "[Imię klienta]",
-    meta: "[Biurowiec, MIASTO]",
-    rating: null,
-    isPlaceholder: true,
-  },
-];
-
 export const faq = {
   heading: "Pytania, które dostajemy najczęściej",
   items: [

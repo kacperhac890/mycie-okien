@@ -1,14 +1,11 @@
 import { Star } from "lucide-react";
-import { testimonials } from "../data/site";
+import { useContent } from "../content/ContentProvider";
 import { Reveal } from "./ui/Reveal";
 import { cn } from "../lib/cn";
 
 /*
-  UWAGA DLA WŁAŚCICIELA STRONY
-  Nie wstawiamy zmyślonych opinii. Poniżej jest gotowy układ z wyraźnymi
-  placeholderami. Podmień treści w src/data/site.ts (tablica `testimonials`),
-  ustaw `rating` i przełącz `isPlaceholder` na false, a karty od razu
-  zaczną wyglądać docelowo.
+  Opinie pochodzą z panelu /admin (content.json). Domyślnie są to wyraźnie
+  oznaczone placeholdery: nie wstawiamy zmyślonych wypowiedzi klientów.
 */
 
 function Stars({ rating }: { rating: number | null }) {
@@ -34,6 +31,10 @@ function Stars({ rating }: { rating: number | null }) {
 }
 
 export function Testimonials() {
+  const { testimonials } = useContent();
+
+  if (testimonials.length === 0) return null;
+
   return (
     <section id="opinie" className="section-pad scroll-mt-24">
       <div className="shell">
@@ -45,13 +46,13 @@ export function Testimonials() {
           {testimonials.map((item, i) => (
             <Reveal
               as="li"
-              key={item.author + i}
+              key={item.id}
               delay={i * 80}
               className={cn(
                 "flex h-full flex-col rounded-card border border-line bg-surface p-6 md:p-7",
                 /* Lekkie przesunięcie środkowej karty łamie siatkę trzech
                    identycznych kafli. */
-                i === 1 && "md:-translate-y-4",
+                i % 3 === 1 && "md:-translate-y-4",
               )}
             >
               <Stars rating={item.rating} />
@@ -69,7 +70,9 @@ export function Testimonials() {
 
               <div className="mt-6 border-t border-line pt-4">
                 <span className="block text-[0.9375rem] font-bold text-ink">{item.author}</span>
-                <span className="mt-0.5 block text-[0.8125rem] text-ink-soft">{item.meta}</span>
+                {item.meta ? (
+                  <span className="mt-0.5 block text-[0.8125rem] text-ink-soft">{item.meta}</span>
+                ) : null}
               </div>
             </Reveal>
           ))}

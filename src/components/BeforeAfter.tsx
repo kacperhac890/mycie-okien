@@ -1,22 +1,17 @@
 import { useRef } from "react";
 import { MoveHorizontal } from "lucide-react";
+import { responsive } from "../data/images";
+import type { ManagedImage } from "../content/types";
 import { cn } from "../lib/cn";
 
 type Props = {
-  before: string;
-  after: string;
-  beforeAlt: string;
-  afterAlt: string;
-  local?: boolean;
+  before: ManagedImage;
+  after: ManagedImage;
   className?: string;
   sizes?: string;
-  priority?: boolean;
 };
 
-function src(id: string, local: boolean | undefined, w: number, h: number) {
-  if (local) return id;
-  return `https://images.unsplash.com/photo-${id}?auto=format&fit=crop&w=${w}&h=${h}&q=72`;
-}
+const RATIO: [number, number] = [4, 3];
 
 /**
  * Porównanie „przed / po”.
@@ -29,14 +24,12 @@ function src(id: string, local: boolean | undefined, w: number, h: number) {
 export function BeforeAfter({
   before,
   after,
-  beforeAlt,
-  afterAlt,
-  local,
   className,
   sizes = "(min-width: 768px) 50vw, 100vw",
-  priority,
 }: Props) {
   const wrap = useRef<HTMLDivElement>(null);
+  const beforePhoto = responsive(before, RATIO, 1200);
+  const afterPhoto = responsive(after, RATIO, 1200);
 
   function setPosition(value: number) {
     wrap.current?.style.setProperty("--pos", `${value}%`);
@@ -53,21 +46,23 @@ export function BeforeAfter({
     >
       {/* Stan docelowy: widoczny domyślnie, pod spodem */}
       <img
-        src={src(after, local, 1200, 900)}
-        alt={afterAlt}
-        loading={priority ? "eager" : "lazy"}
-        decoding="async"
+        src={afterPhoto.src}
+        srcSet={afterPhoto.srcSet}
         sizes={sizes}
+        alt={afterPhoto.alt}
+        loading="lazy"
+        decoding="async"
         className="aspect-[4/3] w-full object-cover"
       />
 
       {/* Stan wyjściowy: przycięty do pozycji suwaka */}
       <img
-        src={src(before, local, 1200, 900)}
-        alt={beforeAlt}
-        loading={priority ? "eager" : "lazy"}
-        decoding="async"
+        src={beforePhoto.src}
+        srcSet={beforePhoto.srcSet}
         sizes={sizes}
+        alt={beforePhoto.alt}
+        loading="lazy"
+        decoding="async"
         aria-hidden="true"
         className="absolute inset-0 h-full w-full object-cover [clip-path:inset(0_calc(100%_-_var(--pos))_0_0)]"
       />

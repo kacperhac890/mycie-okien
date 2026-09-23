@@ -1,16 +1,18 @@
 import { ArrowRight } from "lucide-react";
 import { services } from "../data/site";
-import { images, img } from "../data/images";
+import { IMAGE_RATIOS, responsive } from "../data/images";
+import { useContent } from "../content/ContentProvider";
 import { Button } from "./ui/Button";
 import { Reveal } from "./ui/Reveal";
 import type { ServiceType } from "./quote/types";
 
-const photos = {
-  prywatny: img(images.privateClient, 900),
-  komercyjny: img(images.commercialClient, 900),
-} as const;
-
 export function Services({ onPick }: { onPick: (type: ServiceType) => void }) {
+  const content = useContent();
+  const photos = {
+    prywatny: responsive(content.images.privateClient, IMAGE_RATIOS.privateClient, 900),
+    komercyjny: responsive(content.images.commercialClient, IMAGE_RATIOS.commercialClient, 900),
+  };
+
   return (
     <section id="uslugi" className="section-pad scroll-mt-24 bg-surface">
       <div className="shell">

@@ -26,9 +26,9 @@ prawdziwą daną firmy.
 | Dane strukturalne (LocalBusiness) i SEO | `index.html`                                       |
 | Domena w canonical, OG, robots, sitemap | `index.html`, `public/robots.txt`, `public/sitemap.xml`, `src/data/legal.ts` |
 | Data aktualizacji dokumentów prawnych   | `src/data/legal.ts` -> `LEGAL_UPDATED`             |
-| Opinie klientów                         | `src/data/site.ts` -> `testimonials`               |
-| Realizacje przed/po                     | `src/data/gallery.ts`                              |
-| Zdjęcia sekcji                          | `src/data/images.ts`                               |
+| Opinie klientów                         | panel `/admin` (zakładka Opinie)                   |
+| Realizacje przed/po                     | panel `/admin` (zakładka Realizacje)               |
+| Zdjęcia sekcji                          | panel `/admin` (zakładka Zdjęcia sekcji)           |
 | Treści FAQ i sekcji „jakość”            | `src/data/site.ts` -> `faq`, `quality`             |
 | Logo                                    | `src/components/ui/Logo.tsx`, `public/favicon.svg` |
 
@@ -83,7 +83,53 @@ Limity: do 8 zdjęć, maks. 9 MB łącznie po kompresji.
 
 ---
 
-## 3. Cookies i zgody
+## 3. Panel treści (/admin)
+
+Opinie, zdjęcia sekcji i realizacje edytuje się z przeglądarki, bez dotykania kodu.
+
+**Adres:** https://kacperhac890.github.io/mycie-okien/admin
+**Domyślne hasło:** `okna-admin-2026`
+
+### Jak to działa
+
+1. Zmiany zapisują się najpierw jako szkic w Twojej przeglądarce. Nikt inny ich
+   nie widzi. Przycisk „Podgląd na stronie" pozwala obejrzeć szkic na prawdziwej
+   stronie, dalej tylko u Ciebie.
+2. „Opublikuj zmiany" zapisuje plik `public/content.json` (i ewentualne nowe
+   zdjęcia do `public/media/`) w repozytorium przez API GitHuba. Push uruchamia
+   workflow, więc po około minucie zmiany widzą wszyscy.
+3. Strona startuje z treścią wbudowaną w kod, a potem dociąga `content.json`.
+   Gdy pliku nie ma albo jest uszkodzony, wraca do wersji domyślnej, zamiast się
+   wywalić.
+
+### Token GitHuba
+
+Do publikacji potrzebny jest token z uprawnieniem **Contents: Read and write** do
+tego repozytorium (Settings → Developer settings → Fine-grained tokens). Wpisujesz
+go w zakładce „Publikacja"; zostaje wyłącznie w Twojej przeglądarce i nigdy nie
+trafia do kodu ani do repozytorium.
+
+Bez tokenu nadal możesz pracować w panelu i pobrać gotowy `content.json`
+przyciskiem, a potem wgrać go ręcznie przez stronę GitHuba.
+
+### O bezpieczeństwie, bez owijania
+
+Hasło jest sprawdzane w przeglądarce, a kod strony jest publiczny, więc **nie jest
+to zabezpieczenie kryptograficzne**. Chroni przed przypadkowym wejściem, nie przed
+kimś, kto zna się na rzeczy. Realną barierą jest token GitHuba: bez niego z panelu
+nie da się niczego zmienić na stronie.
+
+Zmiana hasła: policz skrót SHA-256 nowego hasła i ustaw go jako zmienną
+repozytorium `VITE_ADMIN_PASS_HASH` (workflow przekaże ją do builda) albo w pliku
+`.env`.
+
+```bash
+node -e "console.log(require('crypto').createHash('sha256').update('nowe-haslo').digest('hex'))"
+```
+
+---
+
+## 4. Cookies i zgody
 
 - Baner pojawia się przy pierwszej wizycie. Kategorie opcjonalne są domyślnie wyłączone.
 - Wybór zapisujemy w `localStorage` pod kluczem `cookie-consent` razem z datą i wersją
@@ -116,13 +162,14 @@ na `/polityka-cookies` oraz listy odbiorców w polityce prywatności.
 
 ---
 
-## 4. Podstrony
+## 5. Podstrony
 
 | Ścieżka                  | Zawartość                    |
 | ------------------------ | ---------------------------- |
 | `/`                      | Landing page                 |
 | `/polityka-prywatnosci`  | Polityka prywatności (RODO)  |
 | `/polityka-cookies`      | Polityka cookies + tabela    |
+| `/admin`                 | Panel treści (poza indeksem) |
 | dowolna inna             | Strona 404 z powrotem do CTA |
 
 Routing opiera się na `react-router-dom` w trybie `BrowserRouter`, więc serwer musi
@@ -158,19 +205,21 @@ Dokumenty prawne to materiał wyjściowy, nie porada prawna. Fragmenty oznaczone
 
 ---
 
-## 5. Struktura
+## 6. Struktura
 
 ```
 src/
   components/
     quote/          formularz wyceny: kroki, walidacja, podsumowanie, sukces
     cookies/        baner i centrum preferencji
+    admin/          panel treści: edytory opinii, zdjęć i realizacji
     legal/          wspólny layout dokumentów prawnych
-    ui/             Button, Reveal, Logo
-  data/             treści i dane firmy (site, images, gallery, legal)
+    ui/             Button, Reveal, Logo, pola formularza
+  content/          model treści edytowalnej, wartości domyślne, publikacja
+  data/             treści statyczne i dane firmy (site, images, legal)
   hooks/            IntersectionObserver do animacji wejścia
-  lib/              walidacja, wysyłka, zgody, kompresja zdjęć
-  pages/            HomePage, polityki
+  lib/              walidacja, wysyłka, zgody, kompresja zdjęć, API GitHuba
+  pages/            HomePage, polityki, panel
   styles/index.css  tokeny designu, typografia, animacje
 ```
 
@@ -186,14 +235,15 @@ src/
 
 ---
 
-## 6. Dostępność
+## 7. Dostępność
 
 Formularz da się przejść samą klawiaturą, błędy są ogłaszane przez `role="alert"`,
 progres ma `aria-current="step"`, FAQ używa `aria-expanded`, a wszystkie cele dotykowe
 mają co najmniej 44 px. Kontrast tekstu i przycisków spełnia WCAG AA w obu motywach.
 
-## 7. Zdjęcia
+## 8. Zdjęcia
 
 Materiał zastępczy pochodzi z Unsplash (licencja Unsplash, użycie komercyjne dozwolone).
-Po podmianie na własne zdjęcia realizacji wgraj pliki do `public/` i ustaw `local: true`
-w `src/data/images.ts` oraz `src/data/gallery.ts`.
+Własne zdjęcia najprościej wgrać przez panel `/admin`: są automatycznie zmniejszane
+i trafiają do `public/media/` w repozytorium. Wartości domyślne (gdy nie ma jeszcze
+`content.json`) siedzą w `src/content/defaults.ts`.

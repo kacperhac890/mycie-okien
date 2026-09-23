@@ -1,10 +1,11 @@
 import { ArrowRight } from "lucide-react";
 import { hero } from "../data/site";
-import { images, img } from "../data/images";
+import { IMAGE_RATIOS, responsive } from "../data/images";
+import { useContent } from "../content/ContentProvider";
 import { Button } from "./ui/Button";
 
 export function Hero() {
-  const photo = img(images.hero, 1024);
+  const photo = responsive(useContent().images.hero, IMAGE_RATIOS.hero, 1024);
 
   return (
     <section id="gora" className="relative overflow-hidden pt-24 pb-14 md:pt-28 md:pb-20 lg:pt-32">

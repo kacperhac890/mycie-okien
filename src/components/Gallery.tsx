@@ -1,10 +1,12 @@
-import { realizations } from "../data/gallery";
+import { useContent } from "../content/ContentProvider";
 import { BeforeAfter } from "./BeforeAfter";
 import { Reveal } from "./ui/Reveal";
 import { cn } from "../lib/cn";
 
 export function Gallery() {
-  const [featured, ...rest] = realizations;
+  const { gallery } = useContent();
+
+  if (gallery.length === 0) return null;
 
   return (
     <section id="realizacje" className="section-pad scroll-mt-24">
@@ -18,7 +20,7 @@ export function Gallery() {
         </Reveal>
 
         <div className="mt-10 grid gap-6 md:mt-14 md:grid-cols-2 md:gap-7">
-          {[featured, ...rest].map((item, i) => (
+          {gallery.map((item, i) => (
             <Reveal
               key={item.id}
               delay={i * 80}
@@ -27,9 +29,6 @@ export function Gallery() {
               <BeforeAfter
                 before={item.before}
                 after={item.after}
-                beforeAlt={item.beforeAlt}
-                afterAlt={item.afterAlt}
-                local={item.local}
                 sizes={
                   item.featured
                     ? "(min-width: 1280px) 1200px, 100vw"
@@ -40,8 +39,12 @@ export function Gallery() {
 
               <div className="mt-5">
                 <h3 className="h-card text-ink">{item.title}</h3>
-                <p className="mt-1 text-[0.8125rem] font-medium text-ink-faint">{item.meta}</p>
-                <p className="body-text mt-2 max-w-[54ch] text-[0.9375rem]">{item.summary}</p>
+                {item.meta ? (
+                  <p className="mt-1 text-[0.8125rem] font-medium text-ink-faint">{item.meta}</p>
+                ) : null}
+                {item.summary ? (
+                  <p className="body-text mt-2 max-w-[54ch] text-[0.9375rem]">{item.summary}</p>
+                ) : null}
               </div>
             </Reveal>
           ))}

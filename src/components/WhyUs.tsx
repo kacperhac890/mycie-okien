@@ -1,9 +1,10 @@
 import { whyUs } from "../data/site";
-import { images, img } from "../data/images";
+import { IMAGE_RATIOS, responsive } from "../data/images";
+import { useContent } from "../content/ContentProvider";
 import { Reveal } from "./ui/Reveal";
 
 export function WhyUs() {
-  const photo = img(images.work, 900);
+  const photo = responsive(useContent().images.work, IMAGE_RATIOS.work, 900);
 
   return (
     <section id="dlaczego-my" className="section-pad scroll-mt-24">
