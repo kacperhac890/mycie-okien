@@ -15,6 +15,45 @@ import { parseDataUrl, putFile, utf8ToBase64 } from "../lib/github";
 
 export type PublishProgress = { step: string; done: number; total: number };
 
+/* ------------------------------------------------------------------
+   Czekanie na wdrożenie
+
+   Zapis do repozytorium to dopiero polowa drogi: strona jest
+   przebudowywana przez GitHub Actions i nowa tresc pojawia sie po okolo
+   minucie. Bez tego kroku panel mowilby "zapisane", a uzytkownik
+   patrzylby na stara wersje i nie wiedzial dlaczego.
+   ------------------------------------------------------------------ */
+
+const POLL_INTERVAL_MS = 5000;
+const POLL_TIMEOUT_MS = 5 * 60 * 1000;
+
+/** Odpytuje opublikowany plik, aż zobaczy w nim nasz znacznik czasu. */
+export async function waitForDeployment(
+  expectedUpdatedAt: string,
+  onTick?: (secondsWaiting: number) => void,
+): Promise<boolean> {
+  const started = Date.now();
+
+  while (Date.now() - started < POLL_TIMEOUT_MS) {
+    await new Promise((resolve) => setTimeout(resolve, POLL_INTERVAL_MS));
+    onTick?.(Math.round((Date.now() - started) / 1000));
+
+    try {
+      const res = await fetch(`${import.meta.env.BASE_URL}content.json?t=${Date.now()}`, {
+        cache: "no-store",
+      });
+      if (res.ok) {
+        const live = (await res.json()) as { updatedAt?: string };
+        if (live.updatedAt === expectedUpdatedAt) return true;
+      }
+    } catch {
+      /* Chwilowy blad sieci w trakcie wdrozenia nie jest powodem do paniki. */
+    }
+  }
+
+  return false;
+}
+
 function slugify(text: string) {
   return (
     text

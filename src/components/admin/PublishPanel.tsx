@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { CheckCircle2, Download, ExternalLink, KeyRound, Loader2, Upload } from "lucide-react";
 import { REPO } from "../../content/adminConfig";
-import { publishContent } from "../../content/publish";
+import { publishContent, waitForDeployment } from "../../content/publish";
 import type { PublishProgress } from "../../content/publish";
 import { actionsUrl, checkToken, newTokenUrl } from "../../lib/github";
 import { draftSizeKb } from "../../content/store";
@@ -28,7 +28,10 @@ type Props = {
 export function PublishPanel({ draft, dirty, onPublished }: Props) {
   const [token, setToken] = useState(readToken);
   const [remember, setRemember] = useState(() => readToken().length > 0);
-  const [status, setStatus] = useState<"idle" | "checking" | "publishing" | "done">("idle");
+  const [status, setStatus] = useState<
+    "idle" | "checking" | "publishing" | "deploying" | "live" | "slow"
+  >("idle");
+  const [waitedSeconds, setWaitedSeconds] = useState(0);
   const [progress, setProgress] = useState<PublishProgress | null>(null);
   const [error, setError] = useState<string>();
   const [checked, setChecked] = useState<string>();
@@ -61,15 +64,24 @@ export function PublishPanel({ draft, dirty, onPublished }: Props) {
     setError(undefined);
     setStatus("publishing");
     setProgress(null);
+    setWaitedSeconds(0);
+
+    let published;
     try {
-      const published = await publishContent(draft, token.trim(), setProgress);
+      published = await publishContent(draft, token.trim(), setProgress);
       persistToken(token.trim(), remember);
       onPublished(published);
-      setStatus("done");
     } catch (e) {
       setError(e instanceof Error ? e.message : "Publikacja się nie powiodła.");
       setStatus("idle");
+      return;
     }
+
+    /* Zapis się udał. Teraz czekamy, aż przebudowana strona faktycznie
+       poda nową treść, żeby nie kazać zgadywać, czy już widać zmiany. */
+    setStatus("deploying");
+    const live = await waitForDeployment(published.updatedAt, setWaitedSeconds);
+    setStatus(live ? "live" : "slow");
   }
 
   function downloadJson() {
@@ -82,7 +94,7 @@ export function PublishPanel({ draft, dirty, onPublished }: Props) {
     URL.revokeObjectURL(url);
   }
 
-  const busy = status === "checking" || status === "publishing";
+  const busy = status === "checking" || status === "publishing" || status === "deploying";
   const sizeKb = draftSizeKb(draft);
 
   return (
@@ -192,17 +204,46 @@ export function PublishPanel({ draft, dirty, onPublished }: Props) {
           </div>
         ) : null}
 
-        {status === "done" ? (
-          <p className="mt-4 flex flex-wrap items-center gap-2 rounded-control border border-line bg-surface-inset px-4 py-3 text-[0.875rem] text-ink">
+        {status === "deploying" ? (
+          <p
+            aria-live="polite"
+            className="mt-4 flex flex-wrap items-center gap-2 rounded-control border border-accent bg-accent-soft px-4 py-3 text-[0.875rem] text-ink"
+          >
+            <Loader2 className="h-4 w-4 animate-spin text-accent" aria-hidden="true" />
+            Zapisane. Strona się przebudowuje, zwykle trwa to około minuty.
+            <span className="text-ink-soft tabular-nums">czekam {waitedSeconds} s</span>
+          </p>
+        ) : null}
+
+        {status === "live" ? (
+          <p
+            aria-live="polite"
+            className="mt-4 flex flex-wrap items-center gap-2 rounded-control border border-line bg-surface-inset px-4 py-3 text-[0.875rem] text-ink"
+          >
             <CheckCircle2 className="h-4 w-4 text-success" aria-hidden="true" />
-            Zapisane. Strona przebuduje się automatycznie.
+            Gotowe, zmiany są już widoczne na stronie.
+            <a
+              href={import.meta.env.BASE_URL}
+              className="font-semibold text-accent underline underline-offset-2"
+            >
+              Zobacz stronę
+            </a>
+          </p>
+        ) : null}
+
+        {status === "slow" ? (
+          <p
+            aria-live="polite"
+            className="mt-4 flex flex-wrap items-center gap-2 rounded-control border border-line bg-surface-inset px-4 py-3 text-[0.875rem] text-ink"
+          >
+            Zmiany zapisały się w repozytorium, ale przebudowa trwa dłużej niż zwykle.
             <a
               href={actionsUrl}
               target="_blank"
               rel="noreferrer"
               className="inline-flex items-center gap-1 font-semibold text-accent underline underline-offset-2"
             >
-              Podgląd wdrożenia
+              Sprawdź status wdrożenia
               <ExternalLink className="h-3.5 w-3.5" aria-hidden="true" />
             </a>
           </p>
@@ -216,6 +257,11 @@ export function PublishPanel({ draft, dirty, onPublished }: Props) {
               <>
                 <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" />
                 Publikuję
+              </>
+            ) : status === "deploying" ? (
+              <>
+                <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" />
+                Wdrażam
               </>
             ) : (
               <>
