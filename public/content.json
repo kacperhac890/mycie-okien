@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "updatedAt": "2026-09-23T08:11:29.739Z",
+  "updatedAt": "2026-09-23T08:12:17.346Z",
   "images": {
     "hero": {
       "src": "https://images.unsplash.com/photo-1524803504179-6d7ae4d283f7",
@@ -30,7 +30,7 @@
       "author": "Piotr",
       "meta": "[Dom jednorodzinny, Szczecin]",
       "rating": 5,
-      "isPlaceholder": true
+      "isPlaceholder": false
     },
     {
       "id": "opinia-2",
@@ -38,7 +38,7 @@
       "author": "Marcin Mazur",
       "meta": "[Piekarnia Mazurkiewicz, Szczecin]",
       "rating": 5,
-      "isPlaceholder": true
+      "isPlaceholder": false
     },
     {
       "id": "opinia-3",
@@ -46,7 +46,7 @@
       "author": "Krystyna",
       "meta": "[Biurowiec, Szczecin]",
       "rating": 5,
-      "isPlaceholder": true
+      "isPlaceholder": false
     }
   ],
   "gallery": [
