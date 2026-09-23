@@ -1,6 +1,6 @@
 {
   "schema": 2,
-  "updatedAt": "2026-09-23T08:37:25.517Z",
+  "updatedAt": "2026-09-23T15:36:48.322Z",
   "company": {
     "name": "JJ MultiService",
     "phone": "+48 505 758 777",
@@ -46,7 +46,7 @@
       "id": "opinia-1",
       "quote": "Skorzystaliśmy z mycia okien w całym domu i jesteśmy bardzo zadowoleni z efektu. Okna wyglądają jak nowe, a ekipa była dokładna, punktualna i pozostawiła po sobie porządek.",
       "author": "Piotr",
-      "meta": "[Dom jednorodzinny, Szczecin]",
+      "meta": "Dom jednorodzinny, Szczecin",
       "rating": 5,
       "isPlaceholder": false
     },
@@ -54,7 +54,7 @@
       "id": "opinia-2",
       "quote": "Bardzo sprawne i dokładne mycie witryn sklepowych. Szyby są idealnie czyste i bez smug, a całość została wykonana szybko i profesjonalnie.",
       "author": "Marcin Mazur",
-      "meta": "[Piekarnia Mazurkiewicz, Szczecin]",
+      "meta": "Piekarnia Mazurkiewicz, Szczecin",
       "rating": 5,
       "isPlaceholder": false
     },
@@ -62,7 +62,7 @@
       "id": "opinia-3",
       "quote": "Profesjonalna usługa mycia okien w naszym biurowcu. Wszystko zostało wykonane sprawnie, dokładnie i bez zakłócania pracy biura. Zdecydowanie polecamy.",
       "author": "Krystyna",
-      "meta": "[Biurowiec, Szczecin]",
+      "meta": "Biurowiec, Szczecin",
       "rating": 5,
       "isPlaceholder": false
     }
