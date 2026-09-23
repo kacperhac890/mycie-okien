@@ -200,6 +200,13 @@ i publikuje go przez GitHub Actions.
   `VITE_FORM_PROVIDER` i `VITE_FORMSUBMIT_TARGET`. Plik `.env` nie trafia do
   repozytorium, więc bez tych zmiennych build wróci do trybu `mock`.
 - Pages musi mieć ustawione źródło **GitHub Actions** (Settings → Pages).
+- Pliki w `assets/` mają **stałe nazwy**, bez hashy. GitHub Pages serwuje każdy
+  plik z `Cache-Control: max-age=600`, więc hashowanie nic tu nie daje, a przez
+  10 minut po wdrożeniu przeglądarka z zapamiętanym starym `index.html` trafiała
+  na nieistniejący już plik JS i pokazywała pustą stronę.
+
+Po opublikowaniu zmian z panelu strona potrzebuje około minuty na przebudowę.
+Panel czeka na to sam i pokazuje, kiedy treść jest już widoczna na stronie.
 
 Po podpięciu własnej domeny podmień adres w `index.html` (canonical, Open Graph,
 dane strukturalne), `public/robots.txt`, `public/sitemap.xml` i `src/data/legal.ts`.
