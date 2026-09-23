@@ -104,13 +104,17 @@ Opinie, zdjęcia sekcji i realizacje edytuje się z przeglądarki, bez dotykania
 
 ### Token GitHuba
 
-Do publikacji potrzebny jest token z uprawnieniem **Contents: Read and write** do
-tego repozytorium (Settings → Developer settings → Fine-grained tokens). Wpisujesz
-go w zakładce „Publikacja"; zostaje wyłącznie w Twojej przeglądarce i nigdy nie
-trafia do kodu ani do repozytorium.
+W zakładce „Publikacja" jest przycisk **Utwórz token na GitHubie**. Otwiera
+formularz z zaznaczonym z góry zakresem `public_repo`: wystarczy ustawić termin
+ważności, kliknąć „Generate token" i wkleić wynik do panelu.
 
-Bez tokenu nadal możesz pracować w panelu i pobrać gotowy `content.json`
-przyciskiem, a potem wgrać go ręcznie przez stronę GitHuba.
+Węższa alternatywa: token drobnoziarnisty (Settings → Developer settings →
+Fine-grained tokens) z uprawnieniem **Contents: Read and write** wyłącznie do tego
+repozytorium. Panel obsługuje oba rodzaje.
+
+Token zostaje w Twojej przeglądarce i nigdy nie trafia do kodu ani do
+repozytorium. Bez tokenu nadal możesz pracować w panelu i pobrać gotowy
+`content.json` przyciskiem, a potem wgrać go ręcznie przez stronę GitHuba.
 
 ### O bezpieczeństwie, bez owijania
 
