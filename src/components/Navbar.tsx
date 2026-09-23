@@ -1,12 +1,15 @@
 import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { Menu, Phone, X } from "lucide-react";
-import { company, nav, primaryCta } from "../data/site";
+import { nav, primaryCta } from "../data/site";
+import { useContent } from "../content/ContentProvider";
+import { phoneHref } from "../content/types";
 import { Button } from "./ui/Button";
 import { Logo } from "./ui/Logo";
 import { cn } from "../lib/cn";
 
 export function Navbar() {
+  const { company } = useContent();
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
   const sentinel = useRef<HTMLDivElement>(null);
@@ -87,12 +90,12 @@ export function Navbar() {
 
           <div className="flex items-center gap-2">
             <a
-              href={company.phoneHref}
+              href={phoneHref(company.phone)}
               className="hidden items-center gap-2 rounded-pill px-3.5 py-2 text-[0.9375rem] font-semibold text-ink transition-colors hover:text-accent md:inline-flex lg:hidden xl:inline-flex"
             >
               <Phone className="h-4 w-4" strokeWidth={2} aria-hidden="true" />
               <span className="sr-only">Telefon: </span>
-              {company.phoneDisplay}
+              {company.phone}
             </a>
 
             <div className="hidden sm:block">
@@ -179,9 +182,9 @@ export function Navbar() {
             >
               {primaryCta.label}
             </Button>
-            <Button as="a" href={company.phoneHref} variant="secondary" size="lg" full>
+            <Button as="a" href={phoneHref(company.phone)} variant="secondary" size="lg" full>
               <Phone className="h-4 w-4" aria-hidden="true" />
-              {company.phoneDisplay}
+              {company.phone}
             </Button>
           </div>
         </div>

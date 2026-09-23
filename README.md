@@ -21,19 +21,21 @@ prawdziwą daną firmy.
 
 | Co                                     | Gdzie                                             |
 | -------------------------------------- | ------------------------------------------------- |
-| Nazwa, telefon, e-mail, adres, NIP      | `src/data/site.ts` -> `company`                    |
-| Obszar działania                        | `src/data/site.ts` -> `company.area`               |
-| Dane strukturalne (LocalBusiness) i SEO | `index.html`                                       |
-| Domena w canonical, OG, robots, sitemap | `index.html`, `public/robots.txt`, `public/sitemap.xml`, `src/data/legal.ts` |
-| Data aktualizacji dokumentów prawnych   | `src/data/legal.ts` -> `LEGAL_UPDATED`             |
+| Nazwa, telefon, e-mail, adres, NIP      | panel `/admin` (zakładka Firma)                    |
+| Obszar działania                        | panel `/admin` (zakładka Firma)                    |
+| Dane do polityki prywatności            | panel `/admin` (zakładka Firma)                    |
+| Data aktualizacji dokumentów prawnych   | panel `/admin` (zakładka Firma)                    |
 | Opinie klientów                         | panel `/admin` (zakładka Opinie)                   |
 | Realizacje przed/po                     | panel `/admin` (zakładka Realizacje)               |
 | Zdjęcia sekcji                          | panel `/admin` (zakładka Zdjęcia sekcji)           |
-| Treści FAQ i sekcji „jakość”            | `src/data/site.ts` -> `faq`, `quality`             |
+| Pytania i odpowiedzi                    | panel `/admin` (zakładka FAQ)                      |
+| Domena w canonical, OG, robots, sitemap | `index.html`, `public/robots.txt`, `public/sitemap.xml`, `src/data/legal.ts` |
+| Teksty sekcji (hero, oferta, proces)    | `src/data/site.ts`                                 |
 | Logo                                    | `src/components/ui/Logo.tsx`, `public/favicon.svg` |
 
 Sekcja opinii i galeria celowo zawierają widoczne placeholdery zamiast wymyślonych
-treści. Wystarczy podmienić dane w plikach wskazanych wyżej.
+treści. Dane firmy też: dopóki zostają w nawiasach kwadratowych, widzą je
+odwiedzający. Zakładka „Firma" w panelu liczy, ile pól czeka na uzupełnienie.
 
 ---
 
@@ -85,7 +87,9 @@ Limity: do 8 zdjęć, maks. 9 MB łącznie po kompresji.
 
 ## 3. Panel treści (/admin)
 
-Opinie, zdjęcia sekcji i realizacje edytuje się z przeglądarki, bez dotykania kodu.
+Dane firmy, opinie, zdjęcia, realizacje i FAQ edytuje się z przeglądarki, bez
+dotykania kodu. Zakładki: **Firma**, **Opinie**, **Zdjęcia sekcji**, **Realizacje**,
+**FAQ**, **Publikacja**.
 
 **Adres:** https://kacperhac890.github.io/mycie-okien/admin
 **Domyślne hasło:** `okna-admin-2026`
@@ -100,7 +104,11 @@ Opinie, zdjęcia sekcji i realizacje edytuje się z przeglądarki, bez dotykania
    workflow, więc po około minucie zmiany widzą wszyscy.
 3. Strona startuje z treścią wbudowaną w kod, a potem dociąga `content.json`.
    Gdy pliku nie ma albo jest uszkodzony, wraca do wersji domyślnej, zamiast się
-   wywalić.
+   wywalić. Starsze wersje schematu są migrowane: brakujące pola uzupełniają się
+   wartościami domyślnymi, więc podniesienie wersji nie kasuje treści.
+4. Tytuł strony, Open Graph i dane strukturalne (LocalBusiness) też biorą się
+   z danych firmy. Podstawia je plugin z `vite.config.ts` w czasie budowania,
+   bo wyszukiwarki czytają te znaczniki przed uruchomieniem JavaScriptu.
 
 ### Token GitHuba
 

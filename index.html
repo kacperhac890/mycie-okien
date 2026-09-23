@@ -9,7 +9,7 @@
          w public/robots.txt, public/sitemap.xml i src/data/legal.ts. -->
     <link rel="canonical" href="https://kacperhac890.github.io/mycie-okien/" />
 
-    <title>Profesjonalne mycie okien, witryn i przeszkleń | [NAZWA FIRMY]</title>
+    <title>Profesjonalne mycie okien, witryn i przeszkleń | %FIRMA_NAZWA%</title>
     <meta
       name="description"
       content="Mycie okien, witryn sklepowych i dużych przeszkleń dla klientów prywatnych i firm. Profesjonalny sprzęt, ubezpieczenie OC, bezpłatna wycena w 60 sekund."
@@ -18,7 +18,7 @@
 
     <meta property="og:type" content="website" />
     <meta property="og:locale" content="pl_PL" />
-    <meta property="og:site_name" content="[NAZWA FIRMY]" />
+    <meta property="og:site_name" content="%FIRMA_NAZWA%" />
     <meta property="og:title" content="Profesjonalne mycie okien, witryn i przeszkleń" />
     <meta
       property="og:description"
@@ -37,7 +37,9 @@
 
     <!--
       Dane strukturalne dla lokalnego SEO.
-      PLACEHOLDER: uzupełnij nazwę, telefon, adres i obszar działania.
+      Wartości %FIRMA_*% podstawia plugin z vite.config.ts na podstawie
+      public/content.json, czyli danych wpisanych w panelu (/admin).
+      Godziny otwarcia zostają tutaj do ręcznej edycji.
       Architektura pozwala później dodać podstrony miast (/mycie-okien-<miasto>)
       i dołożyć kolejne wpisy areaServed bez zmian w komponentach.
     -->
@@ -45,20 +47,20 @@
       {
         "@context": "https://schema.org",
         "@type": "LocalBusiness",
-        "name": "[NAZWA FIRMY]",
+        "name": "%JSON_FIRMA_NAZWA%",
         "description": "Profesjonalne mycie okien, witryn sklepowych i przeszkleń dla klientów prywatnych i firm.",
         "url": "https://kacperhac890.github.io/mycie-okien/",
-        "telephone": "[+48 000 000 000]",
-        "email": "[kontakt@przykladowa-domena.pl]",
+        "telephone": "%JSON_FIRMA_TELEFON%",
+        "email": "%JSON_FIRMA_EMAIL%",
         "priceRange": "$$",
         "address": {
           "@type": "PostalAddress",
-          "streetAddress": "[ULICA I NUMER]",
-          "postalCode": "[00-000]",
-          "addressLocality": "[MIASTO]",
+          "streetAddress": "%JSON_FIRMA_ULICA%",
+          "postalCode": "%JSON_FIRMA_KOD%",
+          "addressLocality": "%JSON_FIRMA_MIASTO%",
           "addressCountry": "PL"
         },
-        "areaServed": [{ "@type": "City", "name": "[MIASTO]" }],
+        "areaServed": [{ "@type": "City", "name": "%JSON_FIRMA_MIASTO%" }],
         "openingHoursSpecification": [
           {
             "@type": "OpeningHoursSpecification",

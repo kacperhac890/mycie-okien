@@ -1,6 +1,14 @@
 import { defaultContent } from "./defaults";
 import { CONTENT_SCHEMA } from "./types";
-import type { ImageKey, ManagedImage, Realization, SiteContent, Testimonial } from "./types";
+import type {
+  CompanyInfo,
+  FaqItem,
+  ImageKey,
+  ManagedImage,
+  Realization,
+  SiteContent,
+  Testimonial,
+} from "./types";
 
 /* ==================================================================
    ŹRÓDŁA TREŚCI
@@ -31,6 +39,31 @@ function toImage(value: unknown, fallback: ManagedImage): ManagedImage {
     src: isString(v.src) && v.src.trim() ? v.src : fallback.src,
     alt: isString(v.alt) ? v.alt : fallback.alt,
   };
+}
+
+function toCompany(value: unknown): CompanyInfo {
+  const base = defaultContent.company;
+  if (typeof value !== "object" || value === null) return base;
+  const raw = value as Record<string, unknown>;
+
+  const out = { ...base };
+  (Object.keys(base) as (keyof CompanyInfo)[]).forEach((key) => {
+    const incoming = raw[key];
+    if (isString(incoming)) out[key] = incoming;
+  });
+  return out;
+}
+
+function toFaq(value: unknown): FaqItem[] | null {
+  if (!Array.isArray(value)) return null;
+  return value
+    .filter((item): item is Record<string, unknown> => typeof item === "object" && item !== null)
+    .map((item, i) => ({
+      id: isString(item.id) ? item.id : `pytanie-${i}`,
+      q: isString(item.q) ? item.q : "",
+      a: isString(item.a) ? item.a : "",
+    }))
+    .filter((item) => item.q.trim() && item.a.trim());
 }
 
 function toTestimonials(value: unknown): Testimonial[] | null {
@@ -76,7 +109,12 @@ export function normalizeContent(value: unknown): SiteContent {
   if (typeof value !== "object" || value === null) return defaultContent;
   const raw = value as Record<string, unknown>;
 
-  if (raw.schema !== CONTENT_SCHEMA) return defaultContent;
+  /* Starsze wersje schematu przyjmujemy i uzupełniamy brakujące pola
+     wartościami domyślnymi. Dzięki temu podniesienie wersji nie kasuje
+     treści opublikowanej wcześniej. Odrzucamy tylko wersje nowsze niż
+     ta, którą ten kod rozumie. */
+  const schema = typeof raw.schema === "number" ? raw.schema : 0;
+  if (schema < 1 || schema > CONTENT_SCHEMA) return defaultContent;
 
   const images = { ...defaultContent.images };
   if (typeof raw.images === "object" && raw.images !== null) {
@@ -88,13 +126,16 @@ export function normalizeContent(value: unknown): SiteContent {
 
   const testimonials = toTestimonials(raw.testimonials);
   const gallery = toGallery(raw.gallery);
+  const faq = toFaq(raw.faq);
 
   return {
     schema: CONTENT_SCHEMA,
     updatedAt: isString(raw.updatedAt) ? raw.updatedAt : "",
+    company: toCompany(raw.company),
     images,
     testimonials: testimonials ?? defaultContent.testimonials,
     gallery: gallery && gallery.length > 0 ? gallery : defaultContent.gallery,
+    faq: faq && faq.length > 0 ? faq : defaultContent.faq,
   };
 }
 

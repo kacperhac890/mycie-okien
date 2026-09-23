@@ -1,9 +1,13 @@
 import { ArrowRight, Phone } from "lucide-react";
-import { company, finalCta } from "../data/site";
+import { finalCta } from "../data/site";
+import { useContent } from "../content/ContentProvider";
+import { phoneHref } from "../content/types";
 import { Button } from "./ui/Button";
 import { Reveal } from "./ui/Reveal";
 
 export function FinalCta() {
+  const { company } = useContent();
+
   return (
     <section aria-labelledby="final-cta-tytul" className="pb-16 md:pb-24">
       <div className="shell">
@@ -41,11 +45,11 @@ export function FinalCta() {
               </Button>
 
               <a
-                href={company.phoneHref}
+                href={phoneHref(company.phone)}
                 className="inline-flex h-13 w-full items-center justify-center gap-2 rounded-pill border border-brand-line px-7 text-base font-semibold text-on-brand transition-colors hover:bg-white/10 sm:w-auto"
               >
                 <Phone className="h-4 w-4" aria-hidden="true" />
-                {company.phoneDisplay}
+                {company.phone}
               </a>
             </div>
           </div>

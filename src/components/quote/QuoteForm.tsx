@@ -13,7 +13,8 @@ import { emptyQuote } from "./types";
 import type { FieldErrors, QuoteData, ServiceType } from "./types";
 import { validateStep } from "../../lib/validation";
 import { submitQuote } from "../../lib/submitQuote";
-import { company } from "../../data/site";
+import { useContent } from "../../content/ContentProvider";
+import { phoneHref } from "../../content/types";
 import { Button } from "../ui/Button";
 import { Reveal } from "../ui/Reveal";
 import { cn } from "../../lib/cn";
@@ -37,6 +38,7 @@ type Status = "idle" | "sending" | "error" | "success";
 export type Preselect = { type: ServiceType; nonce: number } | null;
 
 export function QuoteForm({ preselect }: { preselect: Preselect }) {
+  const { company } = useContent();
   const [step, setStep] = useState(0);
   const [direction, setDirection] = useState<"forward" | "back">("forward");
   const [data, setData] = useState<QuoteData>(emptyQuote);
@@ -197,10 +199,10 @@ export function QuoteForm({ preselect }: { preselect: Preselect }) {
                 <span className="body-text text-[0.9375rem]">
                   Wolisz porozmawiać?{" "}
                   <a
-                    href={company.phoneHref}
+                    href={phoneHref(company.phone)}
                     className="font-semibold text-ink underline underline-offset-4 transition-colors hover:text-accent"
                   >
-                    {company.phoneDisplay}
+                    {company.phone}
                   </a>
                 </span>
               </li>
@@ -258,7 +260,7 @@ export function QuoteForm({ preselect }: { preselect: Preselect }) {
                       className="mt-6 rounded-control border border-danger bg-danger-soft px-4 py-3 text-[0.875rem] font-medium text-danger"
                     >
                       Nie udało się wysłać zapytania. Spróbuj jeszcze raz albo zadzwoń pod{" "}
-                      {company.phoneDisplay}.
+                      {company.phone}.
                     </p>
                   ) : null}
                 </div>

@@ -15,27 +15,12 @@ import {
 import type { LucideIcon } from "lucide-react";
 
 /* ==================================================================
-   DANE FIRMY  --  WSZYSTKO W NAWIASACH KWADRATOWYCH JEST PLACEHOLDEREM
-   Nie są to prawdziwe dane. Podmień je w jednym miejscu, a zaktualizują
-   się w nawigacji, sekcji kontaktu, stopce i w danych strukturalnych
-   (te ostatnie edytujesz dodatkowo w index.html).
-   ================================================================== */
+   TREŚCI STAŁE SEKCJI
 
-export const company = {
-  name: "[NAZWA FIRMY]",
-  tagline: "Profesjonalne mycie okien i przeszkleń",
-  phoneDisplay: "[+48 000 000 000]",
-  phoneHref: "tel:+48000000000",
-  email: "[kontakt@twojadomena.pl]",
-  /** Miasto / region. Baza pod przyszłe podstrony lokalne. */
-  area: "[MIASTO I OKOLICE]",
-  areaDetail: "[np. do 40 km od MIASTO]",
-  legal: {
-    entity: "[PEŁNA NAZWA DZIAŁALNOŚCI]",
-    nip: "[NIP 000-000-00-00]",
-    address: "[ul. Przykładowa 1, 00-000 MIASTO]",
-  },
-} as const;
+   Dane firmy, opinie, realizacje, zdjęcia i FAQ są edytowalne z panelu
+   (/admin) i mieszkają w src/content. Tutaj zostają teksty sekcji, które
+   opisują sposób pracy i zmieniają się rzadko.
+   ================================================================== */
 
 export const nav = [
   { label: "Usługi", href: "#uslugi" },
@@ -182,36 +167,6 @@ export const quality = {
       title: "Porządek po pracy",
       body: "Zabezpieczamy okolicę stanowiska i zostawiamy ją w stanie, w jakim ją zastaliśmy.",
       icon: ShieldCheck,
-    },
-  ],
-};
-
-export const faq = {
-  heading: "Pytania, które dostajemy najczęściej",
-  items: [
-    {
-      q: "Czy myjecie okna na wysokościach?",
-      a: "Tak. Realizujemy prace wymagające zastosowania odpowiedniego sprzętu, np. myjki teleskopowej lub podnośnika. Zakres i sposób dostępu ustalamy na etapie wyceny, po zdjęciach lub oględzinach.",
-    },
-    {
-      q: "Czy pracujecie w biurach i lokalach usługowych?",
-      a: "Tak. Obsługujemy biura, sklepy, witryny i lokale usługowe. Terminy dopasowujemy do godzin pracy obiektu, także wcześnie rano lub po zamknięciu.",
-    },
-    {
-      q: "Co, jeśli w dniu realizacji będzie padać?",
-      a: "Sam deszcz nie brudzi umytej szyby, więc drobne opady zwykle nie są przeszkodą. Przy silnym wietrze, mrozie lub ulewie przekładamy termin, bo w takich warunkach nie da się zagwarantować efektu ani bezpiecznej pracy na wysokości. O przełożeniu informujemy zawsze z wyprzedzeniem.",
-    },
-    {
-      q: "Czy można umyć również ramy i rolety?",
-      a: "Tak. Mycie ram, skrzynek rolet i żaluzji to osobna pozycja, którą zaznaczasz w formularzu wyceny.",
-    },
-    {
-      q: "Czy wykonujecie prace alpinistyczne?",
-      a: "[DO POTWIERDZENIA] Prace na linach wymagają osobnych uprawnień i sprzętu. Jeżeli Twoje przeszklenia wymagają dostępu alpinistycznego, zaznacz to w formularzu, a potwierdzimy możliwość realizacji przed wyceną.",
-    },
-    {
-      q: "Czy wycena jest bezpłatna?",
-      a: "Tak. Wycena na podstawie formularza i zdjęć jest bezpłatna i niezobowiązująca. Nic nie płacisz do momentu potwierdzenia terminu.",
     },
   ],
 };

@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Phone } from "lucide-react";
-import { company } from "../data/site";
+import { useContent } from "../content/ContentProvider";
+import { phoneHref } from "../content/types";
 import { useConsent } from "./cookies/CookieConsent";
 import { cn } from "../lib/cn";
 
@@ -10,6 +11,7 @@ import { cn } from "../lib/cn";
  * żeby nie zasłaniać jego własnych przycisków.
  */
 export function MobileCta() {
+  const { company } = useContent();
   const [visible, setVisible] = useState(false);
   /* Dopóki wisi baner zgód, pasek CTA się nie pokazuje: dwa elementy
      przyklejone do dolnej krawędzi zasłaniałyby się nawzajem. */
@@ -68,9 +70,9 @@ export function MobileCta() {
           Bezpłatna wycena
         </a>
         <a
-          href={company.phoneHref}
+          href={phoneHref(company.phone)}
           tabIndex={show ? undefined : -1}
-          aria-label={`Zadzwoń: ${company.phoneDisplay}`}
+          aria-label={`Zadzwoń: ${company.phone}`}
           className="flex h-13 w-13 shrink-0 items-center justify-center rounded-pill border border-line-strong bg-surface text-ink transition-colors hover:bg-surface-2"
         >
           <Phone className="h-5 w-5" aria-hidden="true" />

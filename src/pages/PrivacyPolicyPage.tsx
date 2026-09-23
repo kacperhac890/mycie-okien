@@ -1,7 +1,8 @@
 import { Link } from "react-router-dom";
 import { LegalPage } from "../components/legal/LegalPage";
-import { company } from "../data/site";
-import { LEGAL_UPDATED, SITE_URL } from "../data/legal";
+import { SITE_URL } from "../data/legal";
+import { useContent } from "../content/ContentProvider";
+import { formatAddress, isUnset } from "../content/types";
 import { openCookiePreferences } from "../lib/consent";
 
 /*
@@ -18,11 +19,14 @@ import { openCookiePreferences } from "../lib/consent";
 */
 
 export function PrivacyPolicyPage() {
+  const { company } = useContent();
+  const address = formatAddress(company);
+
   return (
     <LegalPage
       title="Polityka prywatności"
       lead="Wyjaśniamy, jakie dane zbieramy przez tę stronę, po co ich potrzebujemy i co możesz z nimi zrobić."
-      updated={LEGAL_UPDATED}
+      updated={company.legalUpdated}
       seo={{
         title: `Polityka prywatności | ${company.name}`,
         description:
@@ -36,17 +40,18 @@ export function PrivacyPolicyPage() {
     >
       <h2 id="administrator">1. Kto jest administratorem danych</h2>
       <p>
-        Administratorem danych osobowych przekazanych przez tę stronę jest {company.legal.entity},{" "}
-        {company.legal.address}, {company.legal.nip} (dalej: „my”).
+        Administratorem danych osobowych przekazanych przez tę stronę jest{" "}
+        {company.legalEntity}
+        {isUnset(address) ? "" : `, ${address}`}
+        {isUnset(company.nip) ? "" : `, ${company.nip}`} (dalej: „my”).
       </p>
       <p>
         Kontakt w sprawach dotyczących danych osobowych: {company.email}, telefon{" "}
-        {company.phoneDisplay}.
+        {company.phone}.
       </p>
-      <p className="legal-note">
-        [DO UZUPEŁNIENIA] Jeżeli został wyznaczony inspektor ochrony danych, podaj tutaj jego dane
-        kontaktowe. Jeżeli nie ma takiego obowiązku, usuń ten fragment.
-      </p>
+      {company.dpo.trim() ? (
+        <p>Inspektor ochrony danych: {company.dpo}.</p>
+      ) : null}
 
       <h2 id="dane">2. Jakie dane zbieramy</h2>
       <p>
@@ -112,8 +117,8 @@ export function PrivacyPolicyPage() {
       <h2 id="okres">4. Jak długo przechowujemy dane</h2>
       <ul>
         <li>
-          Zapytania, które nie zakończyły się zleceniem: [DO UZUPEŁNIENIA: np. 12 miesięcy] od
-          ostatniego kontaktu.
+          Zapytania, które nie zakończyły się zleceniem: {company.retention} od ostatniego
+          kontaktu.
         </li>
         <li>
           Dane związane ze zrealizowaną usługą: przez okres przedawnienia roszczeń, a dokumenty
@@ -126,23 +131,25 @@ export function PrivacyPolicyPage() {
       <h2 id="odbiorcy">5. Komu przekazujemy dane</h2>
       <p>Nie sprzedajemy danych i nie udostępniamy ich w celach marketingowych. Odbiorcami mogą być:</p>
       <ul>
-        <li>[DOSTAWCA HOSTINGU] - przechowywanie serwisu i logi serwera,</li>
+        <li>{company.hosting} - przechowywanie serwisu i logi serwera,</li>
         <li>
           <strong>FormSubmit</strong> (formsubmit.co, operator Devro LABS) - usługa, która przyjmuje
           zgłoszenie z formularza wyceny razem z dołączonymi zdjęciami i przekazuje je na nasz adres
           e-mail,
         </li>
-        <li>[DOSTAWCA POCZTY E-MAIL] - obsługa korespondencji z zapytaniami,</li>
-        <li>[BIURO RACHUNKOWE], jeżeli doszło do wystawienia dokumentu sprzedaży,</li>
+        <li>{company.mailProvider} - obsługa korespondencji z zapytaniami,</li>
+        <li>{company.accounting}, jeżeli doszło do wystawienia dokumentu sprzedaży,</li>
         <li>
           organy publiczne, jeżeli obowiązek przekazania danych wynika z przepisów prawa.
         </li>
       </ul>
-      <p className="legal-note">
-        [DO UZUPEŁNIENIA] Uzupełnij nazwy hostingu, poczty i biura rachunkowego oraz zawrzyj z tymi
-        podmiotami umowy powierzenia przetwarzania danych. Dostawcę obsługi formularza ustawia się
-        w pliku .env (zmienna VITE_FORM_PROVIDER).
-      </p>
+      {[company.hosting, company.mailProvider, company.accounting].some(isUnset) ? (
+        <p className="legal-note">
+          [DO UZUPEŁNIENIA] Uzupełnij w panelu (/admin, zakładka „Firma”) nazwy hostingu, poczty i
+          biura rachunkowego oraz zawrzyj z tymi podmiotami umowy powierzenia przetwarzania danych.
+          Ta notatka zniknie, gdy pola będą wypełnione.
+        </p>
+      ) : null}
 
       <h2 id="unsplash">6. Usługi zewnętrzne obecne na stronie</h2>
       <p>

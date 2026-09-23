@@ -20,6 +20,27 @@ export const defaultContent: SiteContent = {
   schema: CONTENT_SCHEMA,
   updatedAt: "",
 
+  /* Wszystko w nawiasach kwadratowych to placeholder do uzupełnienia
+     w panelu (/admin, zakładka „Firma”). Nie są to prawdziwe dane. */
+  company: {
+    name: "[NAZWA FIRMY]",
+    phone: "[+48 000 000 000]",
+    email: "[kontakt@twojadomena.pl]",
+    area: "[MIASTO I OKOLICE]",
+    areaDetail: "[np. do 40 km od MIASTO]",
+    legalEntity: "[PEŁNA NAZWA DZIAŁALNOŚCI]",
+    nip: "[NIP 000-000-00-00]",
+    street: "[ul. Przykładowa 1]",
+    postalCode: "[00-000]",
+    city: "[MIASTO]",
+    legalUpdated: "[DD.MM.RRRR]",
+    hosting: "[DOSTAWCA HOSTINGU]",
+    mailProvider: "[DOSTAWCA POCZTY E-MAIL]",
+    accounting: "[BIURO RACHUNKOWE]",
+    retention: "[np. 12 miesięcy]",
+    dpo: "",
+  },
+
   images: {
     hero: {
       src: u("1524803504179-6d7ae4d283f7"),
@@ -116,6 +137,39 @@ export const defaultContent: SiteContent = {
         alt: "Czyste przeszklenie ogrodu zimowego po myciu",
       },
       featured: false,
+    },
+  ],
+
+  faq: [
+    {
+      id: "wysokosci",
+      q: "Czy myjecie okna na wysokościach?",
+      a: "Tak. Realizujemy prace wymagające zastosowania odpowiedniego sprzętu, np. myjki teleskopowej lub podnośnika. Zakres i sposób dostępu ustalamy na etapie wyceny, po zdjęciach lub oględzinach.",
+    },
+    {
+      id: "biura",
+      q: "Czy pracujecie w biurach i lokalach usługowych?",
+      a: "Tak. Obsługujemy biura, sklepy, witryny i lokale usługowe. Terminy dopasowujemy do godzin pracy obiektu, także wcześnie rano lub po zamknięciu.",
+    },
+    {
+      id: "deszcz",
+      q: "Co, jeśli w dniu realizacji będzie padać?",
+      a: "Sam deszcz nie brudzi umytej szyby, więc drobne opady zwykle nie są przeszkodą. Przy silnym wietrze, mrozie lub ulewie przekładamy termin, bo w takich warunkach nie da się zagwarantować efektu ani bezpiecznej pracy na wysokości. O przełożeniu informujemy zawsze z wyprzedzeniem.",
+    },
+    {
+      id: "ramy",
+      q: "Czy można umyć również ramy i rolety?",
+      a: "Tak. Mycie ram, skrzynek rolet i żaluzji to osobna pozycja, którą zaznaczasz w formularzu wyceny.",
+    },
+    {
+      id: "alpinistyczne",
+      q: "Czy wykonujecie prace alpinistyczne?",
+      a: "[DO POTWIERDZENIA] Prace na linach wymagają osobnych uprawnień i sprzętu. Jeżeli Twoje przeszklenia wymagają dostępu alpinistycznego, zaznacz to w formularzu, a potwierdzimy możliwość realizacji przed wyceną.",
+    },
+    {
+      id: "wycena",
+      q: "Czy wycena jest bezpłatna?",
+      a: "Tak. Wycena na podstawie formularza i zdjęć jest bezpłatna i niezobowiązująca. Nic nie płacisz do momentu potwierdzenia terminu.",
     },
   ],
 };

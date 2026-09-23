@@ -1,11 +1,15 @@
 import { Link } from "react-router-dom";
 import { Mail, MapPin, Phone } from "lucide-react";
-import { company, footerLinks } from "../data/site";
+import { footerLinks } from "../data/site";
+import { useContent } from "../content/ContentProvider";
+import { formatAddress, isUnset, phoneHref } from "../content/types";
 import { Logo } from "./ui/Logo";
 import { openCookiePreferences } from "../lib/consent";
 
 export function Footer() {
+  const { company } = useContent();
   const year = new Date().getFullYear();
+  const address = formatAddress(company);
 
   return (
     <footer id="kontakt" className="scroll-mt-24 bg-brand pt-14 pb-8 text-on-brand md:pt-20">
@@ -26,11 +30,11 @@ export function Footer() {
             <ul className="mt-5 flex flex-col gap-3.5">
               <li>
                 <a
-                  href={company.phoneHref}
+                  href={phoneHref(company.phone)}
                   className="inline-flex items-center gap-2.5 font-semibold transition-colors hover:text-accent-on-brand"
                 >
                   <Phone className="h-4 w-4 shrink-0 text-accent-on-brand" aria-hidden="true" />
-                  {company.phoneDisplay}
+                  {company.phone}
                 </a>
               </li>
               <li>
@@ -73,7 +77,9 @@ export function Footer() {
 
         <div className="mt-12 flex flex-col gap-4 border-t border-brand-line pt-6 text-[0.8125rem] text-on-brand-soft md:flex-row md:items-center md:justify-between">
           <p>
-            {year} {company.name}. {company.legal.entity}, {company.legal.nip}.
+            {year} {company.name}. {company.legalEntity}
+            {isUnset(company.nip) ? "" : `, ${company.nip}`}
+            {isUnset(address) ? "" : `, ${address}`}.
           </p>
           <ul className="flex flex-wrap items-center gap-x-6 gap-y-2">
             {footerLinks.prawne.map((link) => (

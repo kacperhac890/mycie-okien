@@ -3,6 +3,8 @@ import type { FormEvent } from "react";
 import { Link } from "react-router-dom";
 import { ArrowLeft, Eye, EyeOff, Loader2, RotateCcw } from "lucide-react";
 import { AdminLock } from "../components/admin/AdminLock";
+import { CompanyEditor } from "../components/admin/CompanyEditor";
+import { FaqEditor } from "../components/admin/FaqEditor";
 import { GalleryEditor } from "../components/admin/GalleryEditor";
 import { ImagesEditor } from "../components/admin/ImagesEditor";
 import { PublishPanel } from "../components/admin/PublishPanel";
@@ -22,9 +24,11 @@ import { cn } from "../lib/cn";
 const UNLOCK_KEY = "admin-unlocked";
 
 const TABS = [
+  { id: "firma", label: "Firma" },
   { id: "opinie", label: "Opinie" },
   { id: "zdjecia", label: "Zdjęcia sekcji" },
   { id: "realizacje", label: "Realizacje" },
+  { id: "faq", label: "FAQ" },
   { id: "publikacja", label: "Publikacja" },
 ] as const;
 
@@ -41,7 +45,7 @@ export function AdminPage() {
 
   const [base, setBase] = useState<SiteContent | null>(null);
   const [draft, setDraft] = useState<SiteContent | null>(null);
-  const [tab, setTab] = useState<TabId>("opinie");
+  const [tab, setTab] = useState<TabId>("firma");
   const [preview, setPreviewState] = useState(() => isPreviewOn());
   const [storageWarning, setStorageWarning] = useState(false);
 
@@ -204,6 +208,13 @@ export function AdminPage() {
         </nav>
 
         <form className="mt-8" onSubmit={(e: FormEvent) => e.preventDefault()}>
+          {tab === "firma" ? (
+            <CompanyEditor
+              company={draft.company}
+              onChange={(company) => update({ ...draft, company })}
+            />
+          ) : null}
+
           {tab === "opinie" ? (
             <TestimonialsEditor
               items={draft.testimonials}
@@ -220,6 +231,10 @@ export function AdminPage() {
               items={draft.gallery}
               onChange={(gallery) => update({ ...draft, gallery })}
             />
+          ) : null}
+
+          {tab === "faq" ? (
+            <FaqEditor items={draft.faq} onChange={(faq) => update({ ...draft, faq })} />
           ) : null}
 
           {tab === "publikacja" ? (

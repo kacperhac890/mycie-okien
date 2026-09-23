@@ -1,4 +1,4 @@
-import { company } from "../../data/site";
+import { useContent } from "../../content/ContentProvider";
 import { cn } from "../../lib/cn";
 
 /**
@@ -6,6 +6,7 @@ import { cn } from "../../lib/cn";
  * plus wordmark. Do podmiany na właściwe logo klienta.
  */
 export function Logo({ onBrand = false }: { onBrand?: boolean }) {
+  const { company } = useContent();
   /* Na granatowym panelu akcent musi być jasny, inaczej znika w tle. */
   const mark = onBrand ? "var(--accent-on-brand)" : "var(--accent)";
 

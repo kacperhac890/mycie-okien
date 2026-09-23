@@ -1,10 +1,11 @@
 import { useId, useState } from "react";
 import { Plus } from "lucide-react";
-import { faq } from "../data/site";
+import { useContent } from "../content/ContentProvider";
 import { Reveal } from "./ui/Reveal";
 import { cn } from "../lib/cn";
 
 export function Faq() {
+  const { faq } = useContent();
   const [open, setOpen] = useState<number | null>(null);
   const baseId = useId();
 
@@ -12,18 +13,18 @@ export function Faq() {
     <section id="faq" className="section-pad scroll-mt-24 bg-surface">
       <div className="shell grid gap-10 lg:grid-cols-12 lg:gap-14">
         <Reveal className="lg:col-span-4">
-          <h2 className="h-section text-ink lg:sticky lg:top-28">{faq.heading}</h2>
+          <h2 className="h-section text-ink lg:sticky lg:top-28">Pytania, które dostajemy najczęściej</h2>
         </Reveal>
 
         <div className="lg:col-span-7 lg:col-start-6">
           <ul>
-            {faq.items.map((item, i) => {
+            {faq.map((item, i) => {
               const isOpen = open === i;
               const panelId = `${baseId}-panel-${i}`;
               const buttonId = `${baseId}-button-${i}`;
 
               return (
-                <Reveal as="li" key={item.q} delay={i * 50} className="border-b border-line">
+                <Reveal as="li" key={item.id} delay={i * 50} className="border-b border-line">
                   <h3>
                     <button
                       id={buttonId}

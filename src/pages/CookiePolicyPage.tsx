@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { LegalPage } from "../components/legal/LegalPage";
-import { company } from "../data/site";
-import { LEGAL_UPDATED, SITE_URL } from "../data/legal";
+import { SITE_URL } from "../data/legal";
+import { useContent } from "../content/ContentProvider";
 import { POLICY_VERSION, openCookiePreferences } from "../lib/consent";
 
 /*
@@ -18,10 +18,10 @@ import { POLICY_VERSION, openCookiePreferences } from "../lib/consent";
   3. podnieś POLICY_VERSION, żeby użytkownicy podjęli decyzję na nowo.
 */
 
-const COOKIE_ROWS = [
+const cookieRows = (companyName: string) => [
   {
     name: "cookie-consent",
-    provider: `${company.name} (localStorage przeglądarki)`,
+    provider: `${companyName} (localStorage przeglądarki)`,
     type: "Niezbędny",
     purpose: "Zapamiętanie Twojej decyzji dotyczącej cookies i zakresu udzielonych zgód.",
     retention: "Do czasu wyczyszczenia danych witryny przez użytkownika.",
@@ -29,11 +29,14 @@ const COOKIE_ROWS = [
 ];
 
 export function CookiePolicyPage() {
+  const { company } = useContent();
+  const rows = cookieRows(company.name);
+
   return (
     <LegalPage
       title="Polityka cookies"
       lead="Opis plików cookies i podobnych technologii wykorzystywanych w tym serwisie oraz tego, jak zarządzać zgodami."
-      updated={LEGAL_UPDATED}
+      updated={company.legalUpdated}
       seo={{
         title: `Polityka cookies | ${company.name}`,
         description:
@@ -158,7 +161,7 @@ export function CookiePolicyPage() {
             </tr>
           </thead>
           <tbody>
-            {COOKIE_ROWS.map((row) => (
+            {rows.map((row) => (
               <tr key={row.name} className="border-t border-line align-top">
                 <td className="px-4 py-3 font-semibold text-ink">{row.name}</td>
                 <td className="px-4 py-3">{row.provider}</td>
@@ -178,7 +181,7 @@ export function CookiePolicyPage() {
       <h2 id="kontakt">8. Kontakt</h2>
       <p>
         Pytania dotyczące cookies i danych osobowych: {company.email}, telefon{" "}
-        {company.phoneDisplay}.
+        {company.phone}.
       </p>
     </LegalPage>
   );

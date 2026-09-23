@@ -4,5 +4,5 @@
 
 export const SITE_URL = "https://kacperhac890.github.io/mycie-okien";
 
-/** Data ostatniej aktualizacji dokumentów prawnych. */
-export const LEGAL_UPDATED = "[DD.MM.RRRR]";
+/* Data aktualizacji dokumentów jest edytowalna w panelu (/admin, zakładka
+   „Firma”), bo zmienia się razem z ich treścią. */

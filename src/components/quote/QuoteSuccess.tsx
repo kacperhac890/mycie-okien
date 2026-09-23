@@ -1,8 +1,10 @@
 import { useEffect, useRef } from "react";
-import { company } from "../../data/site";
+import { useContent } from "../../content/ContentProvider";
+import { phoneHref } from "../../content/types";
 import { Button } from "../ui/Button";
 
 export function QuoteSuccess({ onReset }: { onReset: () => void }) {
+  const { company } = useContent();
   const headingRef = useRef<HTMLHeadingElement>(null);
 
   useEffect(() => {
@@ -41,8 +43,8 @@ export function QuoteSuccess({ onReset }: { onReset: () => void }) {
       </p>
 
       <div className="mt-8 flex w-full flex-col gap-3 sm:w-auto sm:flex-row">
-        <Button as="a" href={company.phoneHref} size="lg">
-          {company.phoneDisplay}
+        <Button as="a" href={phoneHref(company.phone)} size="lg">
+          {company.phone}
         </Button>
         <Button as="a" href="#gora" variant="secondary" size="lg" onClick={onReset}>
           Wróć na stronę główną
