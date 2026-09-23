@@ -1,6 +1,6 @@
 {
   "schema": 2,
-  "updatedAt": "2026-09-23T15:36:48.322Z",
+  "updatedAt": "2026-09-23T15:43:29.831Z",
   "company": {
     "name": "JJ MultiService",
     "phone": "+48 505 758 777",
@@ -71,15 +71,15 @@
     {
       "id": "dom",
       "title": "Dom jednorodzinny po remoncie",
-      "meta": "[MIASTO] · [MIESIĄC ROK]",
-      "summary": "Okna z resztkami zaprawy i folii montażowej, razem z ramami i parapetami zewnętrznymi.",
+      "meta": "Szczecin · Sierpień 2026",
+      "summary": "Okna z resztkami zaprawy i folii montażowej, razem z ramami.",
       "before": {
-        "src": "https://images.unsplash.com/photo-1515764371993-7995b2dba0b9",
-        "alt": "Zabrudzone okno w drewnianej ramie przed myciem"
+        "src": "https://i.postimg.cc/Bbp6cw2R/1-przed.png",
+        "alt": "Okno przed myciem"
       },
       "after": {
-        "src": "https://images.unsplash.com/photo-1630699144867-37acec97df5a",
-        "alt": "To samo okno po umyciu, czysta szyba i rama"
+        "src": "https://i.postimg.cc/0jPjSqKz/1-po.png",
+        "alt": "To samo okno po umyciu"
       },
       "featured": true
     },
