@@ -116,14 +116,29 @@
   ],
   "faq": [
     {
+      "id": "kilka-uslug",
+      "q": "Czy mogę zamówić kilka usług naraz?",
+      "a": "Tak, i tak jest najwygodniej. W formularzu zaznaczasz wszystkie potrzebne usługi, a wycenę dostajesz jedną, z rozbiciem na pozycje. Jeden termin, jeden dojazd, jedna faktura."
+    },
+    {
       "id": "wysokosci",
       "q": "Czy myjecie okna na wysokościach?",
       "a": "Tak. Realizujemy prace wymagające zastosowania odpowiedniego sprzętu, np. myjki teleskopowej lub podnośnika. Zakres i sposób dostępu ustalamy na etapie wyceny, po zdjęciach lub oględzinach."
     },
     {
+      "id": "elewacja",
+      "q": "Czym myjecie elewację?",
+      "a": "Myjką ciśnieniową z ciśnieniem dobranym do materiału: inaczej myje się tynk, inaczej klinkier, a inaczej szklaną fasadę. Przy zabrudzeniach biologicznych, takich jak glony czy mech, stosujemy dodatkowo preparaty do usuwania nalotów."
+    },
+    {
       "id": "biura",
       "q": "Czy pracujecie w biurach i lokalach usługowych?",
       "a": "Tak. Obsługujemy biura, sklepy, witryny i lokale usługowe. Terminy dopasowujemy do godzin pracy obiektu, także wcześnie rano lub po zamknięciu."
+    },
+    {
+      "id": "deratyzacja-lokal",
+      "q": "Czy deratyzacja wymaga zamknięcia lokalu?",
+      "a": "Zwykle nie. Zakres i sposób zabezpieczenia dobieramy tak, żeby lokal mógł normalnie pracować, a przy gastronomii i obiektach spożywczych ustalamy termin poza godzinami wydawania posiłków. Szczegóły potwierdzamy przed wizytą."
     },
     {
       "id": "deszcz",
@@ -134,6 +149,11 @@
       "id": "ramy",
       "q": "Czy można umyć również ramy i rolety?",
       "a": "Tak. Mycie ram, skrzynek rolet i żaluzji to osobna pozycja, którą zaznaczasz w formularzu wyceny."
+    },
+    {
+      "id": "opony-ciezarowe",
+      "q": "Odbieracie opony ciężarowe?",
+      "a": "Tak, przyjmujemy opony osobowe, dostawcze, ciężarowe i przemysłowe, również na felgach. Przy większych partiach z serwisu lub warsztatu ustalamy odbiór cykliczny."
     },
     {
       "id": "alpinistyczne",
