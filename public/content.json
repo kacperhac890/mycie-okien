@@ -1,6 +1,6 @@
 {
   "schema": 2,
-  "updatedAt": "2026-09-23T15:50:05.542Z",
+  "updatedAt": "2026-09-24T13:52:31.784Z",
   "company": {
     "name": "JJ MultiService",
     "phone": "+48 505 758 777",
@@ -74,11 +74,11 @@
       "meta": "Szczecin · Sierpień 2026",
       "summary": "Okna z resztkami zaprawy i folii montażowej, razem z ramami.",
       "before": {
-        "src": "https://i.postimg.cc/05K1Y40S/1-przed.png",
+        "src": "https://i.postimg.cc/JzpPJKsS/IMG-1128.avif",
         "alt": "Okno przed myciem"
       },
       "after": {
-        "src": "https://i.postimg.cc/mZ1WYnyH/1-po.png",
+        "src": "https://i.postimg.cc/0QD4pDRr/Chat-GPT-Image-24-wrz-2026-o-15-50-47.png",
         "alt": "To samo okno po umyciu"
       },
       "featured": true
