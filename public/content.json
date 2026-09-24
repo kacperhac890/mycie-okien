@@ -1,6 +1,6 @@
 {
   "schema": 3,
-  "updatedAt": "2026-09-24T15:00:41.167Z",
+  "updatedAt": "2026-09-24T15:47:29.312Z",
   "company": {
     "name": "JJ MultiService",
     "phone": "+48 505 758 777",
@@ -100,16 +100,16 @@
     },
     {
       "id": "ogrod-zimowy",
-      "title": "Ogród zimowy",
-      "meta": "[MIASTO] · [MIESIĄC ROK]",
-      "summary": "Przeszklenia skośne i pionowe, z myciem konstrukcji nośnej.",
+      "title": "Uciążliwe ptactwo",
+      "meta": "Szczecin · Maj 2026",
+      "summary": "Usunięcie gniazda i pozostałości po ptactwie z trudno dostępnego miejsca przy elewacji budynku. Montaż zabezpieczenia w postaci kolców przeciw ptakom, aby zapobiec ponownemu gniazdowaniu i zanieczyszczaniu powierzchni.",
       "before": {
-        "src": "https://images.unsplash.com/photo-1766305045904-58a011979d7a",
-        "alt": "Przeszklenie ogrodu zimowego z osadem przed myciem"
+        "src": "https://i.postimg.cc/kXML6TwC/IMG-8565.jpg",
+        "alt": "Gniazdo ptaków wraz z nagromadzonymi zanieczyszczeniami w narożniku przy elewacji budynku przed wykonaniem prac."
       },
       "after": {
-        "src": "https://images.unsplash.com/photo-1465577512280-1c2d41a79862",
-        "alt": "Czyste przeszklenie ogrodu zimowego po myciu"
+        "src": "https://i.postimg.cc/7P9Wkg4R/IMG-8569.jpg",
+        "alt": "Oczyszczone miejsce po usunięciu gniazda oraz zamontowane kolce przeciw ptakom zabezpieczające przed ponownym osiedlaniem się ptactwa."
       },
       "featured": false
     }
