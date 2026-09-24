@@ -1,6 +1,6 @@
 {
   "schema": 2,
-  "updatedAt": "2026-09-24T13:52:31.784Z",
+  "updatedAt": "2026-09-24T14:03:41.901Z",
   "company": {
     "name": "JJ MultiService",
     "phone": "+48 505 758 777",
@@ -70,9 +70,9 @@
   "gallery": [
     {
       "id": "dom",
-      "title": "Dom jednorodzinny po remoncie",
-      "meta": "Szczecin · Sierpień 2026",
-      "summary": "Okna z resztkami zaprawy i folii montażowej, razem z ramami.",
+      "title": "Lokal usługowy po remoncie",
+      "meta": "Szczecin · Wrzesień 2026",
+      "summary": "Okna z resztkami zaprawy, kleju i folii montażowej, razem z ramami.",
       "before": {
         "src": "https://i.postimg.cc/JzpPJKsS/IMG-1128.avif",
         "alt": "Okno przed myciem"
@@ -86,17 +86,17 @@
     {
       "id": "witryna",
       "title": "Witryna lokalu usługowego",
-      "meta": "[MIASTO] · [MIESIĄC ROK]",
-      "summary": "Mycie od ulicy i od środka, poza godzinami pracy lokalu.",
+      "meta": "Szczecin ·  sierpień 2026",
+      "summary": "Mycie okna i rolety witryny sklepowej poza godzinami pracy lokalu.",
       "before": {
-        "src": "https://images.unsplash.com/photo-1723125189744-c13d54173131",
-        "alt": "Zabrudzona witryna sklepowa przed myciem"
+        "src": "https://i.postimg.cc/90vzs6Nh/IMG-2522.avif",
+        "alt": "Zabrudzona roleta witryny sklepowej przed myciem"
       },
       "after": {
-        "src": "https://images.unsplash.com/photo-1645937464657-4106e824fb15",
-        "alt": "Czysta witryna sklepowa po myciu"
+        "src": "https://i.postimg.cc/8crzdyk6/IMG-2540.avif",
+        "alt": "Zabrudzona roleta witryny sklepowej po myciu"
       },
-      "featured": false
+      "featured": true
     },
     {
       "id": "ogrod-zimowy",
