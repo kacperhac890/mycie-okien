@@ -18,8 +18,8 @@ export function Footer() {
           <div className="md:col-span-5">
             <Logo onBrand />
             <p className="mt-5 max-w-[38ch] text-[0.9375rem] leading-relaxed text-on-brand-soft">
-              Profesjonalne mycie okien, witryn i przeszkleń dla klientów prywatnych i firm.
-              Realizacje jednorazowe oraz stała obsługa obiektów.
+              Mycie okien i elewacji, deratyzacja, przeprowadzki oraz utylizacja odpadów i opon.
+              Realizacje jednorazowe i stała obsługa obiektów.
             </p>
           </div>
 

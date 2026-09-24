@@ -1,5 +1,6 @@
-import { EXTRAS } from "./options";
+import { GENERAL_EXTRAS, NO_EXTRAS, WASHING_EXTRAS } from "./options";
 import { SelectCard } from "./Controls";
+import { hasWashing } from "./types";
 import type { ExtraKey, QuoteData } from "./types";
 
 type Props = {
@@ -8,8 +9,13 @@ type Props = {
 };
 
 export function StepExtras({ data, update }: Props) {
-  /* „Nie potrzebuję dodatkowych usług” wyklucza się z resztą: zaznaczenie
-     go czyści pozostałe i odwrotnie. */
+  /* Dodatki związane z myciem mają sens tylko przy usługach mycia.
+     Przy samej przeprowadzce byłyby szumem. */
+  const washing = hasWashing(data.services);
+  const available = washing ? [...WASHING_EXTRAS, ...GENERAL_EXTRAS] : GENERAL_EXTRAS;
+
+  /* „Nie potrzebuję dodatków” wyklucza się z resztą: zaznaczenie go czyści
+     pozostałe i odwrotnie. */
   function toggle(value: ExtraKey) {
     if (value === "brak") {
       update({ additionalServices: data.additionalServices.includes("brak") ? [] : ["brak"] });
@@ -17,10 +23,11 @@ export function StepExtras({ data, update }: Props) {
     }
 
     const withoutNone = data.additionalServices.filter((v) => v !== "brak");
-    const next = withoutNone.includes(value)
-      ? withoutNone.filter((v) => v !== value)
-      : [...withoutNone, value];
-    update({ additionalServices: next });
+    update({
+      additionalServices: withoutNone.includes(value)
+        ? withoutNone.filter((v) => v !== value)
+        : [...withoutNone, value],
+    });
   }
 
   return (
@@ -28,7 +35,7 @@ export function StepExtras({ data, update }: Props) {
       <legend className="sr-only">Dodatkowe usługi</legend>
 
       <div className="grid gap-3 sm:grid-cols-2">
-        {EXTRAS.filter((o) => o.value !== "brak").map((option) => (
+        {available.map((option) => (
           <SelectCard
             key={option.value}
             type="checkbox"
@@ -44,18 +51,16 @@ export function StepExtras({ data, update }: Props) {
       </div>
 
       <div className="mt-3">
-        {EXTRAS.filter((o) => o.value === "brak").map((option) => (
-          <SelectCard
-            key={option.value}
-            type="checkbox"
-            name="additionalServices"
-            value={option.value}
-            checked={data.additionalServices.includes(option.value)}
-            onChange={() => toggle(option.value)}
-            title={option.label}
-            icon={option.icon}
-          />
-        ))}
+        <SelectCard
+          type="checkbox"
+          name="additionalServices"
+          value={NO_EXTRAS.value}
+          checked={data.additionalServices.includes("brak")}
+          onChange={() => toggle("brak")}
+          title={NO_EXTRAS.label}
+          body={NO_EXTRAS.hint}
+          icon={NO_EXTRAS.icon}
+        />
       </div>
     </fieldset>
   );

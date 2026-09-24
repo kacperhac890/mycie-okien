@@ -3,13 +3,17 @@ import {
   CalendarCheck,
   ClipboardList,
   Clock4,
+  Disc3,
   Droplets,
-  Home,
   Layers,
+  PanelsTopLeft,
+  Rat,
+  Recycle,
   Ruler,
   ShieldCheck,
   Sparkles,
-  Store,
+  SprayCan,
+  Truck,
   Wrench,
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
@@ -37,8 +41,8 @@ export const primaryCta = {
 } as const;
 
 export const hero = {
-  headline: ["Czyste szyby.", "Widoczna różnica."],
-  lead: "Profesjonalne mycie okien, witryn i dużych przeszkleń dla klientów prywatnych i firm.",
+  headline: ["Jedna ekipa.", "Cały porządek."],
+  lead: "Mycie okien i elewacji, deratyzacja, przeprowadzki oraz utylizacja odpadów i opon. Dla klientów prywatnych i firm.",
   ctaPrimary: { label: "Poproś o wycenę", href: "#wycena" },
   ctaSecondary: { label: "Zobacz usługi", href: "#uslugi" },
 } as const;
@@ -53,7 +57,7 @@ export const trustPoints: { label: string; icon: LucideIcon }[] = [
 
 export const whyUs = {
   heading: "Dlaczego klienci zostają z nami na dłużej",
-  lead: "Mycie szyb wygląda prosto do momentu, w którym po wyschnięciu zostają zacieki. Pracujemy tak, żeby efekt był widoczny także następnego dnia.",
+  lead: "Większość z nich zaczyna od jednej usługi, a zostaje, bo nie trzeba szukać kolejnej firmy do następnej sprawy. Ten sam kontakt, ten sam standard.",
   items: [
     {
       title: "Profesjonalny sprzęt",
@@ -83,40 +87,86 @@ export const whyUs = {
   ],
 };
 
-export const services = {
-  heading: "Dwa tryby pracy, jeden standard wykonania",
-  groups: [
+export type ServiceId =
+  | "mycie-okien"
+  | "mycie-elewacji"
+  | "deratyzacja"
+  | "przeprowadzki"
+  | "utylizacja-odpadow"
+  | "utylizacja-opon";
+
+export type ServiceDef = {
+  id: ServiceId;
+  name: string;
+  /** Jedno zdanie o tym, czego usługa dotyczy. */
+  lead: string;
+  /** Zakres w formie krótkich etykiet. */
+  items: string[];
+  icon: LucideIcon;
+  /** Dla kogo, do oznaczenia na karcie. */
+  audience: string;
+  /* Usługi wyróżnione dostają duży kafel ze zdjęciem. Reszta kompaktowe
+     karty z ikoną: sześć równorzędnych kafli robiłoby ścianę bez hierarchii. */
+  imageKey?: "serviceWindows" | "serviceFacade";
+};
+
+export const services: {
+  heading: string;
+  lead: string;
+  items: ServiceDef[];
+} = {
+  heading: "Czym się zajmujemy",
+  lead: "Zaczynaliśmy od szyb, dziś obsługujemy cały budynek i to, co trzeba z niego wywieźć. Jedno zapytanie, jeden wykonawca, jedna faktura.",
+  items: [
     {
-      id: "prywatny" as const,
-      kicker: "Klient prywatny",
-      title: "Domy i mieszkania",
-      body: "Jednorazowe mycie po remoncie, sezonowe porządki albo stały termin dwa razy w roku.",
-      items: [
-        "Domy",
-        "Mieszkania",
-        "Ogrody zimowe",
-        "Duże przeszklenia",
-        "Okna balkonowe",
-        "Ramy i rolety",
-      ],
-      cta: "Zamów wycenę",
-      icon: Home,
+      id: "mycie-okien",
+      name: "Mycie okien i przeszkleń",
+      lead: "Domy, mieszkania, biura i witryny. Jednorazowo albo w stałym cyklu.",
+      items: ["Okna i balkony", "Witryny sklepowe", "Ogrody zimowe", "Ramy i rolety"],
+      icon: PanelsTopLeft,
+      audience: "Klienci prywatni i firmy",
+      imageKey: "serviceWindows",
     },
     {
-      id: "komercyjny" as const,
-      kicker: "Klient komercyjny",
-      title: "Lokale, biura i fasady",
-      body: "Realizacje jednorazowe oraz stała obsługa w ustalonym cyklu, poza godzinami pracy obiektu.",
-      items: [
-        "Biura",
-        "Sklepy i witryny",
-        "Lokale usługowe",
-        "Szklane fasady",
-        "Obiekty wielkopowierzchniowe",
-        "Regularne utrzymanie czystości",
-      ],
-      cta: "Zapytaj o współpracę",
-      icon: Store,
+      id: "mycie-elewacji",
+      name: "Mycie elewacji",
+      lead: "Ciśnieniowe mycie ścian, cokołów i szklanych fasad, z doborem ciśnienia do materiału.",
+      items: ["Tynk i klinkier", "Szklane fasady", "Kostka i cokoły", "Usuwanie nalotów"],
+      icon: SprayCan,
+      audience: "Wspólnoty, firmy, domy",
+      imageKey: "serviceFacade",
+    },
+    {
+      id: "deratyzacja",
+      name: "Deratyzacja",
+      lead: "Lokale usługowe, gastronomia, mieszkania i piwnice. Jednorazowo lub w stałym nadzorze.",
+      items: ["Lokale usługowe", "Mieszkania", "Magazyny", "Stały monitoring"],
+      icon: Rat,
+      audience: "Firmy i mieszkania",
+    },
+    {
+      id: "przeprowadzki",
+      name: "Przeprowadzki",
+      lead: "Mieszkania, biura i pojedyncze meble. Z pakowaniem albo samym transportem.",
+      items: ["Mieszkania", "Biura", "Pakowanie", "Wnoszenie"],
+      icon: Truck,
+      audience: "Klienci prywatni i firmy",
+    },
+    {
+      id: "utylizacja-odpadow",
+      name: "Utylizacja odpadów",
+      lead: "Odbiór i wywóz gruzu, mebli, sprzętu i odpadów mieszanych po remoncie lub porządkach.",
+      items: ["Gruz i odpady budowlane", "Meble i AGD", "Odpady mieszane", "Opróżnianie lokali"],
+      icon: Recycle,
+      audience: "Klienci prywatni i firmy",
+    },
+    {
+      id: "utylizacja-opon",
+      name: "Utylizacja opon",
+      lead: "Odbiór opon osobowych, dostawczych i ciężarowych, także z felgami i w większych partiach.",
+      items: ["Osobowe", "Dostawcze", "Ciężarowe", "Odbiór z serwisu"],
+      icon: Disc3,
+      audience: "Warsztaty, firmy, klienci prywatni",
     },
   ],
 };
@@ -150,17 +200,17 @@ export const process = {
 /* TREŚĆ DO POTWIERDZENIA Z FIRMĄ: poniższe punkty opisują standard pracy.
    Zostaw tylko to, co faktycznie realizujecie. */
 export const quality = {
-  heading: "Umyta szyba to dopiero połowa roboty",
-  lead: "Różnicę między „umyte” a „zrobione porządnie” widać w miejscach, o których łatwo zapomnieć.",
+  heading: "Zrobione znaczy posprzątane po sobie",
+  lead: "Różnicę między „zrobione” a „zrobione porządnie” widać w miejscach, o których łatwo zapomnieć.",
   points: [
     {
-      title: "Ramy, uszczelki i parapety",
-      body: "Przecieramy je przy okazji mycia szyby, bo inaczej brud wraca po pierwszym deszczu.",
+      title: "Detale, o których się zapomina",
+      body: "Ramy, uszczelki i parapety przy myciu, listwy i progi przy przeprowadzce. Inaczej brud wraca po pierwszym deszczu.",
       icon: Layers,
     },
     {
-      title: "Kontrola pod światło",
-      body: "Sprawdzamy efekt końcowy z obu stron, zanim spakujemy sprzęt.",
+      title: "Kontrola na koniec",
+      body: "Sprawdzamy efekt razem z Tobą, zanim spakujemy sprzęt i odjedziemy.",
       icon: Sparkles,
     },
     {
@@ -172,7 +222,7 @@ export const quality = {
 };
 
 export const finalCta = {
-  heading: "Potrzebujesz czystych szyb bez tracenia czasu?",
+  heading: "Masz to z głowy jednym zapytaniem",
   lead: "Wypełnij formularz, a wrócimy do Ciebie z konkretną kwotą i terminem. Bez zobowiązań.",
   cta: { label: "Poproś o wycenę", href: "#wycena" },
 };

@@ -7,10 +7,10 @@ import { QuoteSuccess } from "./QuoteSuccess";
 import { QuoteSummary } from "./QuoteSummary";
 import { StepContact } from "./StepContact";
 import { StepExtras } from "./StepExtras";
-import { StepGlazing } from "./StepGlazing";
-import { StepService } from "./StepService";
+import { StepDetails } from "./StepDetails";
+import { StepScope } from "./StepScope";
 import { emptyQuote } from "./types";
-import type { FieldErrors, QuoteData, ServiceType } from "./types";
+import type { FieldErrors, QuoteData, ServiceId } from "./types";
 import { validateStep } from "../../lib/validation";
 import { submitQuote } from "../../lib/submitQuote";
 import { useContent } from "../../content/ContentProvider";
@@ -20,10 +20,10 @@ import { Reveal } from "../ui/Reveal";
 import { cn } from "../../lib/cn";
 
 const STEP_INTRO = [
-  { heading: "Jaki rodzaj usługi Cię interesuje?", hint: "Całość zajmie około 60 sekund." },
-  { heading: "Co mamy umyć?", hint: "Orientacyjne dane w zupełności wystarczą." },
+  { heading: "Czego potrzebujesz?", hint: "Całość zajmie około 60 sekund." },
+  { heading: "Kilka szczegółów", hint: "Orientacyjne dane w zupełności wystarczą." },
   {
-    heading: "Potrzebujesz czegoś poza myciem szyb?",
+    heading: "Coś jeszcze?",
     hint: "Możesz zaznaczyć kilka pozycji albo pominąć ten krok.",
   },
   {
@@ -35,7 +35,7 @@ const STEP_INTRO = [
 
 type Status = "idle" | "sending" | "error" | "success";
 
-export type Preselect = { type: ServiceType; nonce: number } | null;
+export type Preselect = { service: ServiceId; nonce: number } | null;
 
 export function QuoteForm({ preselect }: { preselect: Preselect }) {
   const { company } = useContent();
@@ -51,10 +51,15 @@ export function QuoteForm({ preselect }: { preselect: Preselect }) {
 
   const isLast = step === STEPS.length - 1;
 
-  /* Wybór typu klienta z sekcji „Oferta” ustawia go w formularzu. */
+  /* Kliknięcie „Zamów wycenę” przy konkretnej usłudze zaznacza ją w
+     formularzu, zamiast kazać szukać jej jeszcze raz na liście. */
   useEffect(() => {
     if (!preselect) return;
-    setData((prev) => ({ ...prev, serviceType: preselect.type }));
+    setData((prev) =>
+      prev.services.includes(preselect.service)
+        ? prev
+        : { ...prev, services: [...prev.services, preselect.service] },
+    );
     setErrors({});
     setStep(0);
     setStatus("idle");
@@ -177,8 +182,8 @@ export function QuoteForm({ preselect }: { preselect: Preselect }) {
             <p className="eyebrow">Wycena</p>
             <h2 className="h-section mt-4 text-ink">Bezpłatna wycena w 60 sekund</h2>
             <p className="body-text mt-5 max-w-[46ch]">
-              Cztery krótkie kroki. Nie musisz nic mierzyć ani liczyć co do sztuki. Wrócimy do
-              Ciebie z konkretną kwotą i terminem.
+              Cztery krótkie kroki, niezależnie od tego, ile usług zaznaczysz. Nie musisz nic
+              mierzyć ani liczyć co do sztuki. Wrócimy do Ciebie z konkretną kwotą i terminem.
             </p>
 
             <ul className="mt-8 flex flex-col gap-4">
@@ -242,10 +247,10 @@ export function QuoteForm({ preselect }: { preselect: Preselect }) {
                     )}
                   >
                     {step === 0 ? (
-                      <StepService data={data} update={update} errors={errors} />
+                      <StepScope data={data} update={update} errors={errors} />
                     ) : null}
                     {step === 1 ? (
-                      <StepGlazing data={data} update={update} errors={errors} />
+                      <StepDetails data={data} update={update} errors={errors} />
                     ) : null}
                     {step === 2 ? <StepExtras data={data} update={update} /> : null}
                     {step === 3 ? (

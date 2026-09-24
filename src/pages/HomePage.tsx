@@ -12,15 +12,15 @@ import { Testimonials } from "../components/Testimonials";
 import { Faq } from "../components/Faq";
 import { FinalCta } from "../components/FinalCta";
 import { MobileCta } from "../components/MobileCta";
-import type { ServiceType } from "../components/quote/types";
+import type { ServiceId } from "../components/quote/types";
 
 export function HomePage() {
-  /* Kliknięcie CTA w sekcji oferty ustawia typ klienta w formularzu.
-     `nonce` pozwala powtórzyć wybór tego samego typu. */
+  /* Kliknięcie „Zamów wycenę” przy usłudze zaznacza ją w formularzu.
+     `nonce` pozwala powtórzyć wybór tej samej usługi. */
   const [preselect, setPreselect] = useState<Preselect>(null);
 
-  function pickService(type: ServiceType) {
-    setPreselect({ type, nonce: Date.now() });
+  function pickService(service: ServiceId) {
+    setPreselect({ service, nonce: Date.now() });
   }
 
   return (

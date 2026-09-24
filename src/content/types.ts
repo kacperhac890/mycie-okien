@@ -6,7 +6,7 @@
    w kod, a potem dociąga `content.json` z serwera, jeśli istnieje.
    ================================================================== */
 
-export type ImageKey = "hero" | "work" | "privateClient" | "commercialClient" | "quality";
+export type ImageKey = "hero" | "work" | "serviceWindows" | "serviceFacade" | "quality";
 
 export type ManagedImage = {
   /** Pełny adres URL albo ścieżka względna wobec katalogu strony, np. "media/hero.jpg". */
@@ -81,7 +81,7 @@ export type SiteContent = {
   faq: FaqItem[];
 };
 
-export const CONTENT_SCHEMA = 2;
+export const CONTENT_SCHEMA = 3;
 
 /** Pole wciąż nieuzupełnione, czyli zostawione w nawiasach kwadratowych. */
 export function isUnset(value: string) {

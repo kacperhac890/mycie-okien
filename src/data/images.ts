@@ -17,16 +17,16 @@ import type { ImageKey, ManagedImage } from "../content/types";
 export const IMAGE_RATIOS: Record<ImageKey, [number, number]> = {
   hero: [4, 5],
   work: [3, 4],
-  privateClient: [16, 11],
-  commercialClient: [16, 11],
+  serviceWindows: [16, 11],
+  serviceFacade: [16, 11],
   quality: [16, 9],
 };
 
 export const IMAGE_LABELS: Record<ImageKey, string> = {
   hero: "Hero, sekcja główna",
   work: "Dlaczego my",
-  privateClient: "Oferta: klient prywatny",
-  commercialClient: "Oferta: klient komercyjny",
+  serviceWindows: "Usługi: mycie okien",
+  serviceFacade: "Usługi: mycie elewacji",
   quality: "Sekcja jakości",
 };
 

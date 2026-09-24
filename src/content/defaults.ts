@@ -50,13 +50,13 @@ export const defaultContent: SiteContent = {
       src: u("1421940943431-d392fcc1079f"),
       alt: "Pracownik myjący przeszklenia na elewacji budynku",
     },
-    privateClient: {
+    serviceWindows: {
       src: u("1656122381069-9ec666d95cf1"),
       alt: "Salon domu z dużym przeszkleniem od podłogi do sufitu",
     },
-    commercialClient: {
-      src: u("1647927397990-1a6a0f1819ce"),
-      alt: "Witryna lokalu usługowego widziana od strony ulicy",
+    serviceFacade: {
+      src: u("1777126958347-ed3cabf2667b"),
+      alt: "Pracownik myjący elewację budynku myjką ciśnieniową",
     },
     quality: {
       src: u("1486175060817-5663aacc6655"),
@@ -165,6 +165,26 @@ export const defaultContent: SiteContent = {
       id: "alpinistyczne",
       q: "Czy wykonujecie prace alpinistyczne?",
       a: "[DO POTWIERDZENIA] Prace na linach wymagają osobnych uprawnień i sprzętu. Jeżeli Twoje przeszklenia wymagają dostępu alpinistycznego, zaznacz to w formularzu, a potwierdzimy możliwość realizacji przed wyceną.",
+    },
+    {
+      id: "kilka-uslug",
+      q: "Czy mogę zamówić kilka usług naraz?",
+      a: "Tak, i tak jest najwygodniej. W formularzu zaznaczasz wszystkie potrzebne usługi, a wycenę dostajesz jedną, z rozbiciem na pozycje. Jeden termin, jeden dojazd, jedna faktura.",
+    },
+    {
+      id: "elewacja",
+      q: "Czym myjecie elewację?",
+      a: "Myjką ciśnieniową z ciśnieniem dobranym do materiału: inaczej myje się tynk, inaczej klinkier, a inaczej szklaną fasadę. Przy zabrudzeniach biologicznych, takich jak glony czy mech, stosujemy dodatkowo preparaty do usuwania nalotów.",
+    },
+    {
+      id: "deratyzacja-lokal",
+      q: "Czy deratyzacja wymaga zamknięcia lokalu?",
+      a: "Zwykle nie. Zakres i sposób zabezpieczenia dobieramy tak, żeby lokal mógł normalnie pracować, a przy gastronomii i obiektach spożywczych ustalamy termin poza godzinami wydawania posiłków. Szczegóły potwierdzamy przed wizytą.",
+    },
+    {
+      id: "opony-ciezarowe",
+      q: "Odbieracie opony ciężarowe?",
+      a: "Tak, przyjmujemy opony osobowe, dostawcze, ciężarowe i przemysłowe, również na felgach. Przy większych partiach z serwisu lub warsztatu ustalamy odbiór cykliczny.",
     },
     {
       id: "wycena",

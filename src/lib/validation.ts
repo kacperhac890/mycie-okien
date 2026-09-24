@@ -46,25 +46,50 @@ export function formatPhone(value: string) {
 export function validateStep(step: number, data: QuoteData): FieldErrors {
   const errors: FieldErrors = {};
 
-  if (step === 0 && !data.serviceType) {
-    errors.serviceType = "Wybierz rodzaj usługi, żeby przejść dalej.";
+  if (step === 0 && data.services.length === 0) {
+    errors.services = "Zaznacz przynajmniej jedną usługę, żeby przejść dalej.";
   }
 
+  /* Krok szczegółów pyta tylko o wybrane usługi, więc i walidujemy tylko je. */
   if (step === 1) {
-    if (data.glazingTypes.length === 0) {
-      errors.glazingTypes = "Zaznacz przynajmniej jeden rodzaj przeszkleń.";
+    if (data.services.includes("mycie-okien")) {
+      if (data.glazingTypes.length === 0) {
+        errors.glazingTypes = "Zaznacz przynajmniej jeden rodzaj przeszkleń.";
+      }
+      if (!data.size) {
+        errors.size = "Wybierz orientacyjny rozmiar. To wystarczy do wstępnej wyceny.";
+      }
     }
-    if (data.quantity !== null && data.quantity < 1) {
-      errors.quantity = "Podaj co najmniej 1 albo zaznacz „Nie wiem”.";
+
+    if (data.services.includes("mycie-elewacji") && !data.facadeType) {
+      errors.facadeType = "Wybierz rodzaj elewacji, od tego zależy sposób mycia.";
     }
-    if (!data.size) {
-      errors.size = "Wybierz orientacyjny rozmiar. To wystarczy do wstępnej wyceny.";
+
+    if (data.services.includes("deratyzacja") && !data.pestPlace) {
+      errors.pestPlace = "Wybierz rodzaj obiektu.";
+    }
+
+    if (data.services.includes("przeprowadzki") && !data.moveSize) {
+      errors.moveSize = "Zaznacz, co mamy przewieźć.";
+    }
+
+    if (data.services.includes("utylizacja-odpadow") && data.wasteTypes.length === 0) {
+      errors.wasteTypes = "Zaznacz przynajmniej jeden rodzaj odpadów.";
+    }
+
+    if (data.services.includes("utylizacja-opon")) {
+      if (data.tyreTypes.length === 0) {
+        errors.tyreTypes = "Zaznacz rodzaj opon.";
+      }
+      if (data.tyreCount < 1) {
+        errors.tyreCount = "Podaj liczbę opon.";
+      }
     }
   }
 
   if (step === 3) {
     if (data.name.trim().length < 2) {
-      errors.name = "Podaj imię lub nazwę firmy.";
+      errors.name = data.audience === "firma" ? "Podaj nazwę firmy." : "Podaj imię.";
     }
     if (!data.phone.trim()) {
       errors.phone = "Podaj numer telefonu, żebyśmy mogli oddzwonić.";

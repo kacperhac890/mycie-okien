@@ -51,7 +51,7 @@ export function Logo({ onBrand = false }: { onBrand?: boolean }) {
             onBrand ? "text-on-brand-soft" : "text-ink-faint",
           )}
         >
-          Mycie okien i przeszkleń
+          Usługi dla domu i firm
         </span>
       </span>
     </span>

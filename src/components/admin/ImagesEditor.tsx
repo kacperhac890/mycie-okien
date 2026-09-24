@@ -14,8 +14,8 @@ const KEYS = Object.keys(IMAGE_LABELS) as ImageKey[];
 const RATIO_CLASS: Record<ImageKey, string> = {
   hero: "aspect-[4/5]",
   work: "aspect-[3/4]",
-  privateClient: "aspect-[16/11]",
-  commercialClient: "aspect-[16/11]",
+  serviceWindows: "aspect-[16/11]",
+  serviceFacade: "aspect-[16/11]",
   quality: "aspect-[16/9]",
 };
 

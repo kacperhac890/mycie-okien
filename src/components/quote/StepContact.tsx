@@ -1,7 +1,8 @@
-import { FieldError, TextAreaField, TextField } from "./Controls";
+import { Building2, User } from "lucide-react";
+import { FieldError, SelectCard, TextAreaField, TextField } from "./Controls";
 import { PhotoUpload } from "./PhotoUpload";
 import { formatPhone, formatPostalCode } from "../../lib/validation";
-import type { FieldErrors, QuoteData } from "./types";
+import type { AudienceType, FieldErrors, QuoteData } from "./types";
 import { cn } from "../../lib/cn";
 
 type Props = {
@@ -11,11 +12,33 @@ type Props = {
 };
 
 export function StepContact({ data, update, errors }: Props) {
-  const isCompany = data.serviceType === "komercyjny";
+  const isCompany = data.audience === "firma";
 
   return (
     <div className="flex flex-col gap-6">
-      <div className="grid gap-5 sm:grid-cols-2">
+      <fieldset>
+        <legend className="text-[0.8125rem] font-semibold text-ink">Zamawiam jako</legend>
+        <div className="mt-3 grid gap-3 sm:grid-cols-2">
+          <SelectCard
+            name="audience"
+            value="prywatny"
+            checked={data.audience === "prywatny"}
+            onChange={() => update({ audience: "prywatny" as AudienceType })}
+            title="Osoba prywatna"
+            icon={User}
+          />
+          <SelectCard
+            name="audience"
+            value="firma"
+            checked={data.audience === "firma"}
+            onChange={() => update({ audience: "firma" as AudienceType })}
+            title="Firma"
+            icon={Building2}
+          />
+        </div>
+      </fieldset>
+
+      <div className="grid gap-5 border-t border-line pt-6 sm:grid-cols-2">
         <TextField
           label={isCompany ? "Nazwa firmy" : "Imię"}
           name="name"

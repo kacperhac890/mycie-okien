@@ -1,5 +1,6 @@
 import { Pencil } from "lucide-react";
 import { labelOf } from "./options";
+import { formatAddressLine, serviceDetailRows } from "./summaryRows";
 import type { QuoteData } from "./types";
 
 type Props = {
@@ -7,7 +8,7 @@ type Props = {
   onEdit: (step: number) => void;
 };
 
-type Row = { term: string; value: string };
+export type Row = { term: string; value: string };
 
 function Block({
   title,
@@ -20,6 +21,8 @@ function Block({
   rows: Row[];
   onEdit: (step: number) => void;
 }) {
+  if (rows.length === 0) return null;
+
   return (
     <div className="border-b border-line py-5 first:pt-0 last:border-b-0 last:pb-0">
       <div className="flex items-baseline justify-between gap-4">
@@ -50,21 +53,21 @@ function Block({
 }
 
 export function QuoteSummary({ data, onEdit }: Props) {
-  const location = [data.postalCode, data.city].filter(Boolean).join(" ") || "nie podano";
+  const isCompany = data.audience === "firma";
 
   const contactRows: Row[] = [
-    { term: data.serviceType === "komercyjny" ? "Firma" : "Imię", value: data.name || "nie podano" },
+    { term: isCompany ? "Firma" : "Imię", value: data.name || "nie podano" },
   ];
   if (data.company) {
     contactRows.push({
-      term: data.serviceType === "komercyjny" ? "Osoba kontaktowa" : "Firma",
+      term: isCompany ? "Osoba kontaktowa" : "Firma",
       value: data.company,
     });
   }
   contactRows.push(
     { term: "Telefon", value: data.phone || "nie podano" },
     { term: "E-mail", value: data.email || "nie podano" },
-    { term: "Lokalizacja", value: location },
+    { term: "Lokalizacja", value: formatAddressLine(data) },
   );
   if (data.notes.trim()) contactRows.push({ term: "Uwagi", value: data.notes.trim() });
   if (data.photos.length > 0) {
@@ -74,50 +77,42 @@ export function QuoteSummary({ data, onEdit }: Props) {
     });
   }
 
+  const extras =
+    data.additionalServices.length === 0 || data.additionalServices.includes("brak")
+      ? "bez dodatków"
+      : data.additionalServices.map(labelOf.extra).join(", ");
+
   return (
     <div className="rounded-card border border-line bg-surface-inset p-5 sm:p-6">
       <Block
-        title="Rodzaj usługi"
+        title="Zakres"
         step={0}
         onEdit={onEdit}
         rows={[
           {
-            term: "Typ",
-            value: data.serviceType ? labelOf.serviceType(data.serviceType) : "nie wybrano",
+            term: "Usługi",
+            value: data.services.map(labelOf.service).join(", ") || "nie wybrano",
           },
         ]}
       />
 
-      <Block
-        title="Przeszklenia"
-        step={1}
-        onEdit={onEdit}
-        rows={[
-          {
-            term: "Rodzaj",
-            value: data.glazingTypes.map(labelOf.glazing).join(", ") || "nie wybrano",
-          },
-          {
-            term: "Liczba",
-            value: data.quantity === null ? "trudno określić" : String(data.quantity),
-          },
-          { term: "Rozmiar", value: data.size ? labelOf.size(data.size) : "nie wybrano" },
-        ]}
-      />
+      {/* Osobny blok na każdą wybraną usługę, żeby w podsumowaniu było
+          widać, co dotyczy czego. */}
+      {data.services.map((id) => (
+        <Block
+          key={id}
+          title={labelOf.service(id)}
+          step={1}
+          onEdit={onEdit}
+          rows={serviceDetailRows(id, data)}
+        />
+      ))}
 
       <Block
-        title="Dodatkowe usługi"
+        title="Dodatki"
         step={2}
         onEdit={onEdit}
-        rows={[
-          {
-            term: "Zakres",
-            value:
-              data.additionalServices.length === 0 || data.additionalServices.includes("brak")
-                ? "samo mycie szyb"
-                : data.additionalServices.map(labelOf.extra).join(", "),
-          },
-        ]}
+        rows={[{ term: "Zakres", value: extras }]}
       />
 
       <Block title="Kontakt" step={3} onEdit={onEdit} rows={contactRows} />

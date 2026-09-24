@@ -1,5 +1,6 @@
 import type { QuoteData } from "../components/quote/types";
 import { labelOf } from "../components/quote/options";
+import { serviceDetailRows } from "../components/quote/summaryRows";
 import { envOr } from "./env";
 
 /* ==================================================================
@@ -81,15 +82,24 @@ function readEnv(): Env {
 export function buildFields(data: QuoteData): Record<string, string> {
   const extras =
     data.additionalServices.length === 0 || data.additionalServices.includes("brak")
-      ? "samo mycie szyb"
+      ? "bez dodatków"
       : data.additionalServices.map(labelOf.extra).join(", ");
 
-  return {
-    "Rodzaj usługi": data.serviceType ? labelOf.serviceType(data.serviceType) : "nie wybrano",
-    Przeszklenia: data.glazingTypes.map(labelOf.glazing).join(", ") || "nie wybrano",
-    Liczba: data.quantity === null ? "trudno określić" : String(data.quantity),
-    Rozmiar: data.size ? labelOf.size(data.size) : "nie wybrano",
-    "Dodatkowe usługi": extras,
+  const fields: Record<string, string> = {
+    "Zamawiane usługi": data.services.map(labelOf.service).join(", ") || "nie wybrano",
+  };
+
+  /* Szczegóły każdej usługi z prefiksem jej nazwy, żeby w skrzynce dało się
+     od razu zobaczyć, co dotyczy czego. */
+  for (const id of data.services) {
+    for (const row of serviceDetailRows(id, data)) {
+      fields[`${labelOf.service(id)}: ${row.term}`] = row.value;
+    }
+  }
+
+  Object.assign(fields, {
+    "Dodatki": extras,
+    "Typ klienta": data.audience === "firma" ? "firma" : "osoba prywatna",
     "Imię / nazwa firmy": data.name.trim(),
     "Osoba kontaktowa / firma": data.company.trim() || "nie podano",
     Telefon: data.phone.replace(/\s/g, ""),
@@ -99,7 +109,9 @@ export function buildFields(data: QuoteData): Record<string, string> {
     Zdjęcia: data.photos.length ? `${data.photos.length}` : "brak",
     "Zgoda na kontakt": data.consent ? "tak" : "nie",
     "Data zgłoszenia": new Date().toLocaleString("pl-PL"),
-  };
+  });
+
+  return fields;
 }
 
 function buildMessage(fields: Record<string, string>) {
