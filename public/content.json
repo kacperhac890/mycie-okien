@@ -1,6 +1,6 @@
 {
   "schema": 2,
-  "updatedAt": "2026-09-24T14:03:41.901Z",
+  "updatedAt": "2026-09-24T14:05:23.280Z",
   "company": {
     "name": "JJ MultiService",
     "phone": "+48 505 758 777",
@@ -96,7 +96,7 @@
         "src": "https://i.postimg.cc/8crzdyk6/IMG-2540.avif",
         "alt": "Zabrudzona roleta witryny sklepowej po myciu"
       },
-      "featured": true
+      "featured": false
     },
     {
       "id": "ogrod-zimowy",
