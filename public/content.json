@@ -1,6 +1,6 @@
 {
   "schema": 3,
-  "updatedAt": "2026-09-24T15:47:29.312Z",
+  "updatedAt": "2026-09-25T12:54:56.275Z",
   "company": {
     "name": "JJ MultiService",
     "phone": "+48 505 758 777",
@@ -110,6 +110,21 @@
       "after": {
         "src": "https://i.postimg.cc/7P9Wkg4R/IMG-8569.jpg",
         "alt": "Oczyszczone miejsce po usunięciu gniazda oraz zamontowane kolce przeciw ptakom zabezpieczające przed ponownym osiedlaniem się ptactwa."
+      },
+      "featured": false
+    },
+    {
+      "id": "realizacja-mugxwvic-utz0c",
+      "title": "Montaż zaplecza w sklepie piekarniczym ",
+      "meta": "Sulęcin  Marzec 2026",
+      "summary": "Montaż umywalek, metalowej półki, blatu roboczego oraz dozowników do mydła i papieru ",
+      "before": {
+        "src": "https://i.postimg.cc/dtw02sCC/IMG-6681.avif",
+        "alt": "pomieszczenie ze starymi meblami przeznaczonymi do utylizacji"
+      },
+      "after": {
+        "src": "https://i.postimg.cc/kghXPWpV/IMG-6818.avif",
+        "alt": "Pomieszczenie po naszych usługach"
       },
       "featured": false
     }
