@@ -1,6 +1,6 @@
 {
   "schema": 3,
-  "updatedAt": "2026-09-25T12:54:56.275Z",
+  "updatedAt": "2026-09-25T13:00:57.069Z",
   "company": {
     "name": "JJ MultiService",
     "phone": "+48 505 758 777",
@@ -29,11 +29,11 @@
       "alt": "Pracownik myjący przeszklenia na elewacji budynku"
     },
     "serviceWindows": {
-      "src": "https://images.unsplash.com/photo-1656122381069-9ec666d95cf1",
+      "src": "https://i.postimg.cc/cCVMzKNC/IMG-6166.avif",
       "alt": "Salon domu z dużym przeszkleniem od podłogi do sufitu"
     },
     "serviceFacade": {
-      "src": "https://images.unsplash.com/photo-1777126958347-ed3cabf2667b",
+      "src": "https://i.postimg.cc/s2cm2D5P/IMG-6213.avif",
       "alt": "Pracownik myjący elewację budynku myjką ciśnieniową"
     },
     "quality": {
