@@ -163,27 +163,7 @@ export function AdminPage() {
 
           <div className="flex flex-wrap gap-2">
             <Button type="button" variant="secondary" onClick={togglePreview}>
-              {staleDraft ? (
-          <div className="mt-5 rounded-control border border-accent bg-accent-soft px-4 py-4">
-            <p className="flex items-start gap-2.5 text-[0.875rem] font-medium text-ink">
-              <AlertTriangle className="mt-px h-4 w-4 shrink-0 text-accent" aria-hidden="true" />
-              <span>
-                Treść na stronie zmieniła się od czasu, gdy zaczynałeś te zmiany. Jeśli teraz
-                opublikujesz, nadpiszesz nowszą wersję.
-              </span>
-            </p>
-            <div className="mt-3 flex flex-wrap gap-2 pl-7">
-              <Button type="button" variant="secondary" onClick={discard}>
-                Weź wersję ze strony
-              </Button>
-              <Button type="button" variant="quiet" onClick={() => setStaleDraft(false)}>
-                Zostaw moje zmiany
-              </Button>
-            </div>
-          </div>
-        ) : null}
-
-        {preview ? (
+              {preview ? (
                 <>
                   <EyeOff className="h-4 w-4" aria-hidden="true" />
                   Wyłącz podgląd
