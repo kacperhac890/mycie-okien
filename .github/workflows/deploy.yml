@@ -17,46 +17,52 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
 
-      - uses: actions/setup-node@v4
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
         with:
           node-version: 20
           cache: npm
 
-      - run: npm ci
+      - name: Install dependencies
+        run: npm ci
 
       - name: Build
         run: npm run build
         env:
-          # Strona żyje w podkatalogu /mycie-okien/ na github.io
-          BASE_PATH: /mycie-okien/
-          # Konfiguracja formularza. Ustawiana przez zmienne repozytorium
-          # (Settings -> Secrets and variables -> Actions -> Variables),
-          # żeby adres e-mail nie leżał w pliku workflow.
-          # Gdy zmienne są puste, formularz wraca do trybu mock.
+          # Strona działa bezpośrednio pod domeną główną:
+          # https://jjmultiservice.pl/
+          BASE_PATH: /
+
+          # Konfiguracja formularza
           VITE_FORM_PROVIDER: ${{ vars.VITE_FORM_PROVIDER }}
           VITE_FORMSUBMIT_TARGET: ${{ vars.VITE_FORMSUBMIT_TARGET }}
-          # Hasło panelu /admin jako skrót SHA-256. Puste = hasło domyślne
-          # opisane w README.
+
+          # Hasło panelu /admin jako SHA-256
           VITE_ADMIN_PASS_HASH: ${{ vars.VITE_ADMIN_PASS_HASH }}
 
-      # Pages musi być wcześniej włączone w ustawieniach repozytorium
-      # (Settings -> Pages -> Source: GitHub Actions). Domyślny token
-      # workflow nie ma uprawnień, żeby zrobić to samodzielnie.
-      - uses: actions/configure-pages@v5
+      - name: Configure GitHub Pages
+        uses: actions/configure-pages@v5
 
-      - uses: actions/upload-pages-artifact@v3
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
         with:
           path: ./dist
 
   deploy:
     needs: build
+
     runs-on: ubuntu-latest
+
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
+
     steps:
-      - id: deployment
+      - name: Deploy to GitHub Pages
+        id: deployment
         uses: actions/deploy-pages@v4
