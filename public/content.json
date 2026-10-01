@@ -1,6 +1,6 @@
 {
   "schema": 3,
-  "updatedAt": "2026-10-01T15:26:24.797Z",
+  "updatedAt": "2026-10-01T15:44:24.040Z",
   "company": {
     "name": "JJ MultiService",
     "phone": "+48 505 758 777",
@@ -25,8 +25,8 @@
       "alt": "ciężki dojazd nie jest problemem dla naszego zespołu"
     },
     "work": {
-      "src": "https://images.unsplash.com/photo-1421940943431-d392fcc1079f",
-      "alt": "Pracownik myjący przeszklenia na elewacji budynku"
+      "src": "https://i.postimg.cc/ZY7LTqcB/IMG-1382-2.avif",
+      "alt": "Ekipa która was odwiedzi "
     },
     "serviceWindows": {
       "src": "https://i.postimg.cc/cCVMzKNC/IMG-6166.avif",
@@ -37,8 +37,8 @@
       "alt": "Pracownik myjący elewację budynku myjką ciśnieniową"
     },
     "quality": {
-      "src": "https://images.unsplash.com/photo-1486175060817-5663aacc6655",
-      "alt": "Szklana fasada biurowca w ujęciu z dołu"
+      "src": "https://i.postimg.cc/Gt6rFsWW/IMG-6941.avif",
+      "alt": "Montaż zaplecza zgodnie z wymogami bhp "
     }
   },
   "testimonials": [],
