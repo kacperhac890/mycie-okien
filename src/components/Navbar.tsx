@@ -72,7 +72,7 @@ export function Navbar() {
             className="rounded-control py-1 transition-opacity hover:opacity-80"
             aria-label={`${company.name}, strona główna`}
           >
-            <Logo />
+            <Logo decorative />
           </Link>
 
           <ul className="hidden items-center gap-1 lg:flex">

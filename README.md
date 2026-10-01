@@ -31,7 +31,7 @@ prawdziwą daną firmy.
 | Pytania i odpowiedzi                    | panel `/admin` (zakładka FAQ)                      |
 | Domena w canonical, OG, robots, sitemap | `index.html`, `public/robots.txt`, `public/sitemap.xml`, `src/data/legal.ts` |
 | Teksty sekcji (hero, oferta, proces)    | `src/data/site.ts`                                 |
-| Logo                                    | `src/components/ui/Logo.tsx`, `public/favicon.svg` |
+| Logo, favicon, obrazek Open Graph       | `public/logo.png`, `public/favicon.png`, `public/og-image.jpg` |
 
 Sekcja opinii i galeria celowo zawierają widoczne placeholdery zamiast wymyślonych
 treści. Dane firmy też: dopóki zostają w nawiasach kwadratowych, widzą je
@@ -260,7 +260,28 @@ Formularz da się przejść samą klawiaturą, błędy są ogłaszane przez `rol
 progres ma `aria-current="step"`, FAQ używa `aria-expanded`, a wszystkie cele dotykowe
 mają co najmniej 44 px. Kontrast tekstu i przycisków spełnia WCAG AA w obu motywach.
 
-## 8. Zdjęcia
+## 8. Logo i ikony
+
+Pliki marki leżą w `public/`:
+
+| Plik                   | Gdzie się pojawia                                  |
+| ---------------------- | -------------------------------------------------- |
+| `logo.png`             | nagłówek, menu mobilne, stopka                      |
+| `favicon.png`          | ikona karty przeglądarki                            |
+| `apple-touch-icon.png` | ikona po dodaniu strony do ekranu głównego          |
+| `og-image.jpg`         | podgląd linku na Facebooku, LinkedInie, w komunikatorach |
+
+Logo ma przezroczyste tło, więc działa na jasnych sekcjach. W stopce, która jest
+granatowa, granatowe elementy znaku zlałyby się z tłem, dlatego logo leży tam na
+białej płytce. Taki jest zamysł, a nie przeoczenie.
+
+Podmiana logo: wrzuć nowy plik jako `public/logo.png` i popraw `width` oraz
+`height` w `src/components/ui/Logo.tsx`, żeby przeglądarka znała proporcje przed
+pobraniem obrazka i nie przesuwała układu po jego załadowaniu.
+
+---
+
+## 9. Zdjęcia
 
 Materiał zastępczy pochodzi z Unsplash (licencja Unsplash, użycie komercyjne dozwolone).
 Własne zdjęcia najprościej wgrać przez panel `/admin`: są automatycznie zmniejszane
