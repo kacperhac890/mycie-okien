@@ -17,7 +17,7 @@ export function ContentProvider({ children }: { children: ReactNode }) {
   const [content, setContent] = useState<SiteContent>(() => {
     if (typeof window !== "undefined" && isPreviewOn()) {
       const draft = readDraft();
-      if (draft) return draft;
+      if (draft) return draft.content;
     }
     return defaultContent;
   });

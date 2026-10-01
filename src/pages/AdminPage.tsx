@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import type { FormEvent } from "react";
 import { Link } from "react-router-dom";
-import { ArrowLeft, Eye, EyeOff, Loader2, RotateCcw } from "lucide-react";
+import { AlertTriangle, ArrowLeft, Eye, EyeOff, Loader2, RotateCcw } from "lucide-react";
 import { AdminLock } from "../components/admin/AdminLock";
 import { CompanyEditor } from "../components/admin/CompanyEditor";
 import { FaqEditor } from "../components/admin/FaqEditor";
@@ -48,6 +48,8 @@ export function AdminPage() {
   const [tab, setTab] = useState<TabId>("firma");
   const [preview, setPreviewState] = useState(() => isPreviewOn());
   const [storageWarning, setStorageWarning] = useState(false);
+  /* Szkic powstał na starszej wersji treści niż ta, która jest na stronie. */
+  const [staleDraft, setStaleDraft] = useState(false);
 
   /* Panel nie powinien trafiać do wyszukiwarek. */
   useEffect(() => {
@@ -77,7 +79,18 @@ export function AdminPage() {
     loadPublishedContent().then((published) => {
       if (!active) return;
       setBase(published);
-      setDraft(readDraft() ?? published);
+
+      const draft = readDraft();
+      if (!draft) {
+        setDraft(published);
+        return;
+      }
+
+      /* Szkic z innego urządzenia albo sprzed zmiany wprowadzonej poza
+         panelem nadpisałby nowszą treść bez ostrzeżenia. Pokazujemy wybór
+         zamiast po cichu wygrywać szkicem. */
+      setDraft(draft.content);
+      setStaleDraft(draft.basedOn !== published.updatedAt);
     });
 
     return () => {
@@ -92,7 +105,7 @@ export function AdminPage() {
 
   function update(next: SiteContent) {
     setDraft(next);
-    setStorageWarning(!writeDraft(next));
+    setStorageWarning(!writeDraft(next, base?.updatedAt ?? ""));
   }
 
   function unlock() {
@@ -108,6 +121,7 @@ export function AdminPage() {
     clearDraft();
     setDraft(base);
     setStorageWarning(false);
+    setStaleDraft(false);
   }
 
   function togglePreview() {
@@ -149,7 +163,27 @@ export function AdminPage() {
 
           <div className="flex flex-wrap gap-2">
             <Button type="button" variant="secondary" onClick={togglePreview}>
-              {preview ? (
+              {staleDraft ? (
+          <div className="mt-5 rounded-control border border-accent bg-accent-soft px-4 py-4">
+            <p className="flex items-start gap-2.5 text-[0.875rem] font-medium text-ink">
+              <AlertTriangle className="mt-px h-4 w-4 shrink-0 text-accent" aria-hidden="true" />
+              <span>
+                Treść na stronie zmieniła się od czasu, gdy zaczynałeś te zmiany. Jeśli teraz
+                opublikujesz, nadpiszesz nowszą wersję.
+              </span>
+            </p>
+            <div className="mt-3 flex flex-wrap gap-2 pl-7">
+              <Button type="button" variant="secondary" onClick={discard}>
+                Weź wersję ze strony
+              </Button>
+              <Button type="button" variant="quiet" onClick={() => setStaleDraft(false)}>
+                Zostaw moje zmiany
+              </Button>
+            </div>
+          </div>
+        ) : null}
+
+        {preview ? (
                 <>
                   <EyeOff className="h-4 w-4" aria-hidden="true" />
                   Wyłącz podgląd
@@ -167,6 +201,26 @@ export function AdminPage() {
             </Button>
           </div>
         </div>
+
+        {staleDraft ? (
+          <div className="mt-5 rounded-control border border-accent bg-accent-soft px-4 py-4">
+            <p className="flex items-start gap-2.5 text-[0.875rem] font-medium text-ink">
+              <AlertTriangle className="mt-px h-4 w-4 shrink-0 text-accent" aria-hidden="true" />
+              <span>
+                Treść na stronie zmieniła się od czasu, gdy zaczynałeś te zmiany. Jeśli teraz
+                opublikujesz, nadpiszesz nowszą wersję.
+              </span>
+            </p>
+            <div className="mt-3 flex flex-wrap gap-2 pl-7">
+              <Button type="button" variant="secondary" onClick={discard}>
+                Weź wersję ze strony
+              </Button>
+              <Button type="button" variant="quiet" onClick={() => setStaleDraft(false)}>
+                Zostaw moje zmiany
+              </Button>
+            </div>
+          </div>
+        ) : null}
 
         {preview ? (
           <p className="mt-5 rounded-control border border-accent bg-accent-soft px-4 py-3 text-[0.8125rem] font-medium text-ink">
@@ -244,8 +298,9 @@ export function AdminPage() {
               onPublished={(published) => {
                 setBase(published);
                 setDraft(published);
-                writeDraft(published);
+                writeDraft(published, published.updatedAt);
                 setStorageWarning(false);
+                setStaleDraft(false);
               }}
             />
           ) : null}

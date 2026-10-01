@@ -161,19 +161,35 @@ export async function loadPublishedContent(signal?: AbortSignal): Promise<SiteCo
    Szkic roboczy i podgląd
    ------------------------------------------------------------------ */
 
-export function readDraft(): SiteContent | null {
+/* Szkic pamięta, na której opublikowanej wersji był oparty. Bez tego panel
+   po cichu pokazywałby stary szkic jako aktualny i przy publikacji cofnąłby
+   zmiany wprowadzone w międzyczasie z innego urządzenia albo z repozytorium. */
+export type Draft = { content: SiteContent; basedOn: string };
+
+export function readDraft(): Draft | null {
   try {
     const raw = window.localStorage.getItem(DRAFT_KEY);
     if (!raw) return null;
-    return normalizeContent(JSON.parse(raw));
+    const parsed: unknown = JSON.parse(raw);
+
+    if (typeof parsed === "object" && parsed !== null && "content" in parsed) {
+      const draft = parsed as { content: unknown; basedOn?: unknown };
+      return {
+        content: normalizeContent(draft.content),
+        basedOn: typeof draft.basedOn === "string" ? draft.basedOn : "",
+      };
+    }
+
+    /* Szkic zapisany starszą wersją panelu: nie wiemy, na czym bazował. */
+    return { content: normalizeContent(parsed), basedOn: "" };
   } catch {
     return null;
   }
 }
 
-export function writeDraft(content: SiteContent) {
+export function writeDraft(content: SiteContent, basedOn: string) {
   try {
-    window.localStorage.setItem(DRAFT_KEY, JSON.stringify(content));
+    window.localStorage.setItem(DRAFT_KEY, JSON.stringify({ content, basedOn }));
     return true;
   } catch {
     /* Najczęstsza przyczyna: przekroczony limit localStorage przez zdjęcia. */
